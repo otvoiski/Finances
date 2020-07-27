@@ -21,7 +21,7 @@
 				  MinColumnWidth="50" MaxColumnWidth="500" AreRowDetailsFrozen="False"
 				  SelectionMode="Single" RowDetailsVisibilityMode="Visible"
 				  CanUserResizeRows="False" CanUserResizeColumns="False"
-				  CanUserAddRows="False" CanUserDeleteRows="False"
+				  CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="True"
 				  AlternatingRowBackground="LightGray" AutoGenerateColumns="False"
 				  IsSynchronizedWithCurrentItem="False" HorizontalContentAlignment="Left"
 				  VerticalContentAlignment="Top" IsReadOnly="True" SelectionChanged="BillList_SelectionChanged">

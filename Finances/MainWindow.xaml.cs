@@ -2,6 +2,7 @@
 using Finances.Model;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -28,6 +29,8 @@ namespace Finances
             // #fffffa white
 
             InitializeComponent();
+
+            App.Init();
 
             _billFacade = App.Services.GetRequiredService<IBillFacade>();
             _billManager = App.Services.GetRequiredService<IBillManager>();
@@ -84,8 +87,7 @@ namespace Finances
             editButton.IsEnabled = false;
             deleteButton.IsEnabled = false;
 
-            BillList.ItemsSource = _wallet.Bills;
-            BillList.ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star);
+            BillList.ItemsSource = _wallet.Bills.Where(x => x.Date.Month == _date.Month);
         }
 
         private void Window_Closed(object sender, EventArgs e)
