@@ -1,4 +1,5 @@
 ﻿using Finances.Model;
+using Microsoft.Extensions.DependencyInjection;
 using SQLite;
 using System;
 using System.Windows;
@@ -13,6 +14,7 @@ namespace Finances
         private static readonly string dataBaseName = "Finances.db";
         private static readonly string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static string DataBasePath = System.IO.Path.Combine(folderPath, "Finances", dataBaseName);
+        public static IServiceProvider Services = Dependencies.GetServiceProvider();
 
         public static void Seed()
         {

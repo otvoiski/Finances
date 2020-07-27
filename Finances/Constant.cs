@@ -7,7 +7,7 @@ namespace Finances
 {
     public class Constant : IConstant
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public Constant(IConfigurationRoot configuration)
         {

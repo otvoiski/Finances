@@ -7,7 +7,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Picture\add.png" />
+    <None Remove="Picture\calendar.png" />
+    <None Remove="Picture\left-arrow.png" />
+    <None Remove="Picture\pencil.png" />
+    <None Remove="Picture\right-arrow.png" />
+    <None Remove="Picture\trash-can.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Picture\add.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Picture\calendar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Picture\left-arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Picture\pencil.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Picture\right-arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Picture\trash-can.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

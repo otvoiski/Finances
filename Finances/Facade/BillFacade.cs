@@ -1,10 +1,6 @@
 ﻿using Finances.Model;
 using Finances.Service;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace Finances.Facade
 {
@@ -20,66 +16,36 @@ namespace Finances.Facade
         public bool Insert(Bill bill)
         {
             using (var connection = _sqlService.Factory())
-            {
-                connection.Insert(bill);
-            }
-
-            return false;
+                return connection.Insert(bill) > 0;
         }
 
         public IList<Bill> GetAllBills()
         {
             using (var connection = _sqlService.Factory())
-            {
                 return connection.Table<Bill>().ToList();
-            }
         }
 
-        //public async Task<Wallet> LoadBalance()
-        //{
-        //    return await Task.FromResult(WalletSeed());
-
-        //    static Wallet WalletSeed()
-        //    {
-        //        return new Wallet
-        //        {
-        //            Bills = new List<Bill>
-        //            {
-        //                new Bill
-        //                {
-        //                    Id = 15,
-        //                    Date = new DateTime(2020,07,23),
-        //                    Description = "Phone",
-        //                    Parcel = 0,
-        //                    Type = 'D',
-        //                    Payment = null,
-        //                    Value = 212.65,
-        //                    IsPay = false
-        //                }
-        //            },
-        //            Balance = 100.56
-        //        };
-        //    }
-        //}
-
-        public async Task<bool> Update(Bill bill)
+        public bool Update(Bill bill)
         {
-            //foreach (var bill in wallet.Bills)
-            //{
-            //    return await _sqlService.Save(bill);
-            //}
+            using (var connection = _sqlService.Factory())
+                return connection.Update(bill) > 0;
+        }
 
-            return false;
+        public bool Remove(Bill bill)
+        {
+            using (var connection = _sqlService.Factory())
+                return connection.Delete(bill) > 0;
         }
     }
 
     public interface IBillFacade
     {
-        //Task<Wallet> LoadBalance();
-
         IList<Bill> GetAllBills();
 
-        //Task<bool> Update(Wallet wallet);
         bool Insert(Bill bill);
+
+        bool Update(Bill bill);
+
+        bool Remove(Bill bill);
     }
 }
