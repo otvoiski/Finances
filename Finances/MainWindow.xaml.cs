@@ -53,15 +53,19 @@ namespace Finances
                     ? bill.Value
                     : 0;
 
-                _wallet.TotalBillsMonth += !bill.IsPay && bill.Date.Month == DateTime.Now.Month
+                _wallet.TotalBillsMonth += !bill.IsPay && bill.Date.Month == DateTime.Today.Month
                     ? bill.Value
                     : 0;
 
-                _wallet.TotalBillsYear += !bill.IsPay && bill.Date.Year == DateTime.Now.Year
+                _wallet.TotalBillsYear += !bill.IsPay && bill.Date.Year == DateTime.Today.Year
                     ? bill.Value
                     : 0;
 
-                _wallet.BillsPaidYear += bill.IsPay && bill.Date.Year == DateTime.Now.Year && bill.Value < 0
+                _wallet.BillsPaidYear += bill.IsPay && bill.Payment?.Year == DateTime.Today.Year && bill.Value < 0
+                    ? bill.Value
+                    : 0;
+
+                _wallet.BillsCreditCardYear += !bill.IsPay && bill.Date.Year == DateTime.Today.Year && bill.Value < 0 && bill.Type == "C"
                     ? bill.Value
                     : 0;
             }
@@ -75,6 +79,7 @@ namespace Finances
             total_bills_on_month.Content = $"${_wallet.TotalBillsMonth}";
             total_bills_on_year.Content = $"${_wallet.TotalBillsYear}";
             bills_paid_in_the_year.Content = $"${_wallet.BillsPaidYear}";
+            bills_on_credit_card_year.Content = $"${_wallet.BillsCreditCardYear}";
 
             editButton.IsEnabled = false;
             deleteButton.IsEnabled = false;

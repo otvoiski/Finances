@@ -58,13 +58,17 @@
 			</StackPanel>
 		</Button>
 		<Label x:Name="balance" Content="$0,00" HorizontalAlignment="Right" Margin="0,19,22,0" VerticalAlignment="Top" Width="251" Foreground="#FFFFFFFA" FontSize="20" FontStyle="Normal" FontWeight="Normal" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Height="37" ToolTip="Total of your balance" />
-		<Label x:Name="date" Content="{Binding _date}" HorizontalAlignment="Left" Margin="20,13,0,0" VerticalAlignment="Top" Width="501" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFFFFFFA" Grid.Column="1" Height="43" FontSize="18" FontWeight="Bold" />
-		<Label Content="Bills to pay" HorizontalAlignment="Left" Margin="531,62,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="30" Width="120" Grid.Column="1" />
-		<Label Content="Total bills on month" HorizontalAlignment="Left" Margin="531,92,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="30" Width="120" Grid.Column="1" />
-		<Label x:Name="bills_to_pay" Content="0.00" HorizontalAlignment="Left" Margin="657,62,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="30" Width="94" Grid.Column="1" />
-		<Label x:Name="total_bills_on_month" Content="0.00" HorizontalAlignment="Left" Margin="657,92,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="30" Width="94" Grid.Column="1" />
-		<Label x:Name="total_bills_on_year" Content="0.00" HorizontalAlignment="Left" Margin="657,122,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="31" Width="94" Grid.Column="1" />
-		<Label Content="Total bills on year" HorizontalAlignment="Left" Margin="531,122,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="31" Width="120" Grid.Column="1" />
+		<Label x:Name="date" Content="July, 2020" HorizontalAlignment="Left" Margin="20,13,0,0" VerticalAlignment="Top" Width="501" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFFFFFFA" Grid.Column="1" Height="43" FontSize="18" FontWeight="Bold" />
+		<Label Content="Bills to pay" HorizontalAlignment="Left" Margin="521,55,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="30" Width="189" Grid.Column="1" />
+		<Label Content="Total bills on month" HorizontalAlignment="Left" Margin="521,85,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="30" Width="189" Grid.Column="1" />
+		<Label x:Name="bills_to_pay" Content="0.00" HorizontalAlignment="Left" Margin="715,55,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="30" Width="74" Grid.Column="1" />
+		<Label x:Name="total_bills_on_month" Content="0.00" HorizontalAlignment="Left" Margin="715,85,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="30" Width="74" Grid.Column="1" />
+		<Label x:Name="total_bills_on_year" Content="0.00" HorizontalAlignment="Left" Margin="715,115,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="31" Width="74" Grid.Column="1" />
+		<Label Content="Total bills on year" HorizontalAlignment="Left" Margin="521,115,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="31" Width="189" Grid.Column="1" />
+		<Label x:Name="bills_paid_in_the_year" Content="0.00" HorizontalAlignment="Left" Margin="715,145,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="31" Width="74" Grid.Column="1" />
+		<Label Content="Bills paid in the year" HorizontalAlignment="Left" Margin="523,145,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="31" Width="188" Grid.Column="1" />
+		<Label Content="Bills on credit card in the year" HorizontalAlignment="Left" Margin="521,175,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="31" Width="189" Grid.Column="1" />
+		<Label x:Name="bills_on_credit_card_year" Content="0.00" HorizontalAlignment="Left" Margin="715,175,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="31" Width="74" Grid.Column="1" />
 		<Button Grid.Column="1" HorizontalAlignment="Left" Width="32" Height="32" Padding="5,5" Margin="218,360,0,0" VerticalAlignment="Top" Click="Button_Click_Add">
 			<StackPanel>
 				<Image Source="Picture/add.png" />
@@ -89,7 +93,5 @@
 				<TextBlock>Schedule</TextBlock>
 			</StackPanel>
 		</Button>
-		<Label x:Name="bills_paid_in_the_year" Content="0.00" HorizontalAlignment="Left" Margin="657,154,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="31" Width="94" Grid.Column="1" />
-		<Label Content="Bills paid in the year" HorizontalAlignment="Left" Margin="531,154,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="31" Width="120" Grid.Column="1" />
 	</Grid>
 </Window>
