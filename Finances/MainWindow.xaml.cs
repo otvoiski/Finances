@@ -32,8 +32,7 @@ namespace Finances
             _billFacade = App.Services.GetRequiredService<IBillFacade>();
             _billManager = App.Services.GetRequiredService<IBillManager>();
 
-            _date = DateTime.Now;
-
+            _date = DateTime.Today;
             date.Content = _date.ToString("MMMM, yyyy");
 
             LoadInterface();
@@ -136,6 +135,18 @@ namespace Finances
                 editButton.IsEnabled = false;
                 deleteButton.IsEnabled = false;
             }
+        }
+
+        private void Arrow_right_Click(object sender, RoutedEventArgs e)
+        {
+            _date = new DateTime(_date.Ticks).AddMonths(1);
+            date.Content = _date.ToString("MMMM, yyyy");
+        }
+
+        private void Arrow_left_Click(object sender, RoutedEventArgs e)
+        {
+            _date = new DateTime(_date.Ticks).AddMonths(-1);
+            date.Content = _date.ToString("MMMM, yyyy");
         }
     }
 }

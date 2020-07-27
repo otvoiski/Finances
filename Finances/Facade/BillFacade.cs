@@ -1,5 +1,7 @@
 ﻿using Finances.Model;
 using Finances.Service;
+using SQLite;
+using System;
 using System.Collections.Generic;
 
 namespace Finances.Facade
@@ -15,26 +17,29 @@ namespace Finances.Facade
 
         public bool Insert(Bill bill)
         {
-            using (var connection = _sqlService.Factory())
-                return connection.Insert(bill) > 0;
+            using SQLiteConnection connection = _sqlService.Factory();
+            return connection.Insert(bill) > 0;
         }
 
         public IList<Bill> GetAllBills()
         {
-            using (var connection = _sqlService.Factory())
-                return connection.Table<Bill>().ToList();
+            using SQLiteConnection connection = _sqlService.Factory();
+            return connection.Table<Bill>().ToList();
         }
 
         public bool Update(Bill bill)
         {
-            using (var connection = _sqlService.Factory())
-                return connection.Update(bill) > 0;
+            if (bill.IsPay)
+                bill.Payment = DateTime.Now;
+
+            using SQLiteConnection connection = _sqlService.Factory();
+            return connection.Update(bill) > 0;
         }
 
         public bool Remove(Bill bill)
         {
-            using (var connection = _sqlService.Factory())
-                return connection.Delete(bill) > 0;
+            using SQLiteConnection connection = _sqlService.Factory();
+            return connection.Delete(bill) > 0;
         }
     }
 
