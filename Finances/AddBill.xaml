@@ -1,0 +1,31 @@
+﻿<Window x:Class="Finances.AddBill"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:Finances"
+        mc:Ignorable="d"
+        Title="AddBill" Height="300" Width="350" Background="#FF222222" WindowStartupLocation="CenterScreen">
+	<Grid ScrollViewer.VerticalScrollBarVisibility="Disabled">
+		<Label Content="Date" HorizontalAlignment="Left" Height="30" Margin="17,18,0,0" VerticalAlignment="Top" Width="100" Background="{x:Null}" Foreground="White" HorizontalContentAlignment="Right" />
+		<Label Content="Description" HorizontalAlignment="Left" Height="30" Margin="17,48,0,0" VerticalAlignment="Top" Width="100" Foreground="White" HorizontalContentAlignment="Right" />
+		<Label Content="Parcel" HorizontalAlignment="Left" Height="30" Margin="17,78,0,0" VerticalAlignment="Top" Width="100" Foreground="White" HorizontalContentAlignment="Right" />
+		<Label Content="$" HorizontalAlignment="Left" Height="30" Margin="17,108,0,0" VerticalAlignment="Top" Width="100" Foreground="White" HorizontalContentAlignment="Right" />
+		<Label Content="Type" HorizontalAlignment="Left" Height="30" Margin="17,138,0,0" VerticalAlignment="Top" Width="100" Foreground="White" HorizontalContentAlignment="Right" />
+		<Label Content="IsPay?" HorizontalAlignment="Left" Height="30" Margin="17,168,0,0" VerticalAlignment="Top" Width="100" Foreground="White" HorizontalContentAlignment="Right" />
+
+		<Label x:Name="error" Content="" HorizontalAlignment="Center" Height="24" Margin="0,193,0,0" VerticalAlignment="Top" Width="278" Foreground="#FFFF4D4D" HorizontalContentAlignment="Center" Background="{x:Null}" VerticalContentAlignment="Top" FontSize="9" />
+
+		<DatePicker x:Name="date" SelectedDate="{x:Static sys:DateTime.Now}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="137,18,0,0" VerticalAlignment="Top" Width="177" VerticalContentAlignment="Center" BorderBrush="{x:Null}" />
+		<TextBox x:Name="description" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Height="30" Margin="137,48,0,0" VerticalAlignment="Top" Width="177" />
+		<TextBox x:Name="parcel" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Height="30" Margin="137,78,0,0" VerticalAlignment="Top" Width="177" />
+		<TextBox x:Name="value" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Height="30" Margin="137,108,0,0" VerticalAlignment="Top" Width="177" />
+		<ComboBox x:Name="type" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="137,138,0,0" VerticalAlignment="Top" Width="177" VerticalContentAlignment="Center">
+			<ComboBoxItem Content="Debit Card" Tag="D" IsSelected="True" />
+			<ComboBoxItem Content="Credit Card" Tag="C" />
+		</ComboBox>
+		<CheckBox x:Name="isPay" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="137,168,0,0" VerticalAlignment="Top" Width="177" />
+		<Button Content="Add Bill" HorizontalAlignment="Center" Height="36" Margin="0,217,0,0" VerticalAlignment="Top" Width="278" Click="Button_Click" />
+	</Grid>
+</Window>
