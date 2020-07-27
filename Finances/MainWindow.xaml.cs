@@ -75,6 +75,7 @@ namespace Finances
             total_bills_on_month.Content = $"${_wallet.TotalBillsMonth}";
             total_bills_on_year.Content = $"${_wallet.TotalBillsYear}";
             bills_paid_in_the_year.Content = $"${_wallet.BillsPaidYear}";
+
             editButton.IsEnabled = false;
             deleteButton.IsEnabled = false;
 

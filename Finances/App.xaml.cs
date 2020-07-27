@@ -1,5 +1,4 @@
 ﻿using Finances.Model;
-using Microsoft.Extensions.DependencyInjection;
 using SQLite;
 using System;
 using System.Windows;
