@@ -39,7 +39,7 @@
 					</DataGridTemplateColumn.CellEditingTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Header="Description" Width="200" Binding="{Binding Path=Description}" />
-				<DataGridTextColumn Header="P" Binding="{Binding Path=Parcel}" />
+				<DataGridTextColumn Header="I" Binding="{Binding Path=Installment}" />
 				<DataGridTextColumn Header="$" Binding="{Binding Path=Value}" />
 				<DataGridTextColumn Header="T" Binding="{Binding Path=Type}" />
 				<DataGridCheckBoxColumn Header="IsPay?" Width="*" Binding="{Binding Path=IsPay}" />

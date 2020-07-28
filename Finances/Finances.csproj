@@ -12,6 +12,7 @@
     <None Remove="Picture\left-arrow.png" />
     <None Remove="Picture\pencil.png" />
     <None Remove="Picture\right-arrow.png" />
+    <None Remove="Picture\search.png" />
     <None Remove="Picture\trash-can.png" />
   </ItemGroup>
 
@@ -32,6 +33,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Picture\right-arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Picture\search.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Picture\trash-can.png">

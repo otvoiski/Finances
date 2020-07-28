@@ -8,7 +8,7 @@ namespace Finances
 {
     public static class Dependencies
     {
-        public static ServiceProvider GetServiceProvider()
+        public static IServiceCollection GetDependencies()
         {
             var configuration = new ConfigurationBuilder()
                .AddJsonFile("appsettings.json")
@@ -16,11 +16,24 @@ namespace Finances
 
             return new ServiceCollection()
                     .AddTransient<IConstant, Constant>(c => new Constant(configuration))
-                    .AddTransient<IBillFacade, BillFacade>()
-                    .AddTransient<ISqlService, SqlService>()
+
+                    // Module
                     .AddTransient<IBillModule, BillModule>()
+                    .AddTransient<IScheduleModule, ScheduleModule>()
+
+                    // Facade
+                    .AddTransient<IBillFacade, BillFacade>()
+                    .AddTransient<IScheduleFacade, ScheduleFacade>()
+
+                    // Service
+                    .AddTransient<ISqlService, SqlService>()
+
+                    // Windows
                     .AddTransient<IBillManager, BillManager>()
-                .BuildServiceProvider();
+                    .AddTransient<IScheduleManager, ScheduleManager>()
+                    .AddTransient<IScheduleBill, ScheduleBill>()
+                    .AddTransient<IFindBill, FindBill>()
+            ;
         }
     }
 }

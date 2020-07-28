@@ -1,6 +1,5 @@
 ﻿using Finances.Model;
 using SQLite;
-using SQLitePCL;
 using System;
 using System.IO;
 using System.Windows;
@@ -13,7 +12,6 @@ namespace Finances
     public partial class App : Application
     {
         public static string DataBasePath;
-        public static IServiceProvider Services = Dependencies.GetServiceProvider();
 
         public static void Init()
         {
@@ -34,8 +32,9 @@ namespace Finances
             {
                 var db = new SQLiteConnection(DataBasePath);
                 //Create schema
-                db.CreateTable<Parcel>();
+                db.CreateTable<Installment>();
                 db.CreateTable<Bill>();
+                db.CreateTable<Schedule>();
             }
         }
     }

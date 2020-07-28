@@ -1,50 +1,35 @@
 ﻿using Finances.Model;
 using System;
-using System.Windows.Controls;
 
 namespace Finances.Module
 {
     public class BillModule : IBillModule
     {
-        public Bill ValidateBill(DatePicker date, TextBox description, TextBox parcel, TextBox value, ComboBox type, CheckBox isPay, Label error)
+        public (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string value, string type, bool isPay)
         {
             #region Empty Check
 
-            if (string.IsNullOrWhiteSpace(description.Text))
-            {
-                error.Content = "Description can not is empty";
-                return null;
-            }
-            if (string.IsNullOrWhiteSpace(parcel.Text))
-            {
-                error.Content = "Parcel can not is empty";
-                return null;
-            }
-            if (string.IsNullOrWhiteSpace(value.Text))
-            {
-                error.Content = "Value can not is empty";
-                return null;
-            }
+            if (string.IsNullOrWhiteSpace(description)) return (null, "Description can not is empty");
+
+            if (string.IsNullOrWhiteSpace(installment)) return (null, "Installment can not is empty");
+
+            if (string.IsNullOrWhiteSpace(value)) return (null, "Value can not is empty");
 
             #endregion Empty Check
 
             #region Value Check
 
-            if (!int.TryParse(parcel.Text, out int parcelNumber))
-            {
-                error.Content = "Parcel is not a number";
-                return null;
-            }
+            if (!int.TryParse(installment, out int installmentNumber)) return (null, "Installment is not a number");
 
-            if (!double.TryParse(value.Text, out double valueNumber))
-            {
-                error.Content = "Value is not a number";
-                return null;
-            }
+            if (installmentNumber < 0) return (null, "Installment number cannot minor of zero.");
+
+            if (installmentNumber == 0) installmentNumber = 1;
+
+            if (!double.TryParse(value, out double valueNumber)) return (null, "Value is not a number");
 
             string typeBox;
 
-            switch ((type.SelectedItem as ComboBoxItem).Content)
+            switch (type)
             {
                 case "Debit Card":
                     typeBox = "D";
@@ -55,39 +40,35 @@ namespace Finances.Module
                     break;
 
                 default:
-                    error.Content = "Type do not exist";
-                    return null;
+                    return (null, "Type do not exist");
             }
 
             #endregion Value Check
 
             #region Date Check
 
-            if (!DateTime.TryParse(date.Text, out DateTime dateTime))
-            {
-                error.Content = "Its not a date time";
-                return null;
-            }
+            if (date == null) return (null, "Its not a date time");
 
             #endregion Date Check
 
-            return new Bill
+            return (new Bill
             {
-                Date = dateTime,
-                Description = description.Text,
-                Parcel = parcelNumber,
+                Date = date.GetValueOrDefault(),
+                Description = description,
+                Installment = installmentNumber,
                 Value = valueNumber,
                 Type = typeBox,
-                IsPay = isPay.IsChecked.GetValueOrDefault(),
-                Payment = isPay.IsChecked.GetValueOrDefault()
+                IsPay = isPay,
+                Payment = isPay
                 ? DateTime.Now
-                : default
-            };
+                : default,
+                Installments = null
+            }, null);
         }
     }
 
     public interface IBillModule
     {
-        Bill ValidateBill(DatePicker date, TextBox description, TextBox parcel, TextBox value, ComboBox type, CheckBox isPay, Label error);
+        (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string value, string type, bool isPay);
     }
 }

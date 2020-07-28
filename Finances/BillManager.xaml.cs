@@ -14,7 +14,7 @@ namespace Finances
         private readonly IBillFacade _billFacade;
         private readonly IBillModule _billModule;
 
-        private Bill _bill;
+        private int _billId = 0;
 
         public BillManager(IBillFacade billFacade, IBillModule billModule)
         {
@@ -30,7 +30,8 @@ namespace Finances
 
             date.SelectedDate = DateTime.Now;
             description.Text = "";
-            parcel.Text = "0";
+            installment.Text = "1";
+            installment.Visibility = Visibility.Hidden;
             value.Text = "-1";
             type.Text = "Debit Card";
             isPay.IsChecked = false;
@@ -42,16 +43,16 @@ namespace Finances
         {
             InitializeComponent();
 
-            _bill = bill;
+            _billId = bill.Id;
 
-            date.SelectedDate = _bill.Date;
-            description.Text = _bill.Description;
-            parcel.Text = _bill.Parcel.ToString();
-            value.Text = _bill.Value.ToString();
-            type.Text = _bill.Type == "D"
+            date.SelectedDate = bill.Date;
+            description.Text = bill.Description;
+            installment.Text = bill.Installment.ToString();
+            value.Text = bill.Value.ToString();
+            type.Text = bill.Type == "D"
                 ? "Debit Card"
                 : "Credit Card";
-            isPay.IsChecked = _bill.IsPay;
+            isPay.IsChecked = bill.IsPay;
 
             clickBotton.Content = "Edit bill";
 
@@ -60,20 +61,25 @@ namespace Finances
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var bill = _billModule.ValidateBill(date, description, parcel, value, type, isPay, error);
+            (Bill bill, string error) = _billModule.ValidateBill(
+                date.SelectedDate,
+                description.Text,
+                installment.Text,
+                value.Text,
+                type.Text,
+                isPay.IsChecked.GetValueOrDefault());
+
             if (bill != null)
             {
-                if (_bill.Id > 0)
-                {
-                    bill.Id = _bill.Id;
-                    _billFacade.Update(bill);
-                }
-                else
-                {
-                    _billFacade.Insert(bill);
-                }
+                bill.Id = _billId;
 
-                Visibility = Visibility.Hidden;
+                _billFacade.Save(bill);
+
+                Close();
+            }
+            else
+            {
+                Error.Content = error;
             }
         }
 
@@ -81,6 +87,22 @@ namespace Finances
         {
             e.Cancel = true;
             Visibility = Visibility.Hidden;
+        }
+
+        private void Type_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (type.Text == "Debit Card")
+            {
+                installment.Visibility = Visibility.Visible;
+                installment.Text = "1";
+                installmentLabel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                installment.Visibility = Visibility.Hidden;
+                installmentLabel.Visibility = Visibility.Hidden;
+                installment.Text = "1";
+            }
         }
     }
 

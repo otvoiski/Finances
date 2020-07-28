@@ -2,7 +2,7 @@
 
 namespace Finances.Model
 {
-    public class Parcel
+    public class Installment
     {
         [PrimaryKey]
         public int Id { get; set; }

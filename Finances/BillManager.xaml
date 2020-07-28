@@ -11,18 +11,18 @@
 	<Grid ScrollViewer.VerticalScrollBarVisibility="Disabled">
 		<Label Content="Date" HorizontalAlignment="Left" Height="30" Margin="17,18,0,0" VerticalAlignment="Top" Width="100" Background="{x:Null}" Foreground="White" HorizontalContentAlignment="Right" />
 		<Label Content="Description" HorizontalAlignment="Left" Height="30" Margin="17,48,0,0" VerticalAlignment="Top" Width="100" Foreground="White" HorizontalContentAlignment="Right" />
-		<Label Content="Parcel" HorizontalAlignment="Left" Height="30" Margin="17,78,0,0" VerticalAlignment="Top" Width="100" Foreground="White" HorizontalContentAlignment="Right" />
+		<Label x:Name="installmentLabel"  Content="Installment" HorizontalAlignment="Left" Height="30" Margin="17,78,0,0" VerticalAlignment="Top" Width="100" Foreground="White" HorizontalContentAlignment="Right" />
 		<Label Content="$" HorizontalAlignment="Left" Height="30" Margin="17,108,0,0" VerticalAlignment="Top" Width="100" Foreground="White" HorizontalContentAlignment="Right" />
 		<Label Content="Type" HorizontalAlignment="Left" Height="30" Margin="17,138,0,0" VerticalAlignment="Top" Width="100" Foreground="White" HorizontalContentAlignment="Right" />
 		<Label Content="IsPay?" HorizontalAlignment="Left" Height="30" Margin="17,168,0,0" VerticalAlignment="Top" Width="100" Foreground="White" HorizontalContentAlignment="Right" />
 
-		<Label x:Name="error" Content="" HorizontalAlignment="Center" Height="24" Margin="0,193,0,0" VerticalAlignment="Top" Width="278" Foreground="#FFFF4D4D" HorizontalContentAlignment="Center" Background="{x:Null}" VerticalContentAlignment="Top" FontSize="9" />
+		<Label x:Name="Error" Content="" HorizontalAlignment="Center" Height="24" Margin="0,193,0,0" VerticalAlignment="Top" Width="278" Foreground="#FFFF4D4D" HorizontalContentAlignment="Center" Background="{x:Null}" VerticalContentAlignment="Top" FontSize="9" />
 
 		<DatePicker x:Name="date" SelectedDate="{x:Static sys:DateTime.Now}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="137,18,0,0" VerticalAlignment="Top" Width="177" VerticalContentAlignment="Center" BorderBrush="{x:Null}" />
 		<TextBox x:Name="description" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Height="30" Margin="137,48,0,0" VerticalAlignment="Top" Width="177" />
-		<TextBox x:Name="parcel" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Height="30" Margin="137,78,0,0" VerticalAlignment="Top" Width="177" />
+		<TextBox x:Name="installment" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Height="30" Margin="137,78,0,0" VerticalAlignment="Top" Width="177" />
 		<TextBox x:Name="value" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Height="30" Margin="137,108,0,0" VerticalAlignment="Top" Width="177" />
-		<ComboBox x:Name="type" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="137,138,0,0" VerticalAlignment="Top" Width="177" VerticalContentAlignment="Center">
+		<ComboBox x:Name="type" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="137,138,0,0" VerticalAlignment="Top" Width="177" VerticalContentAlignment="Center" SelectionChanged="Type_SelectionChanged">
 			<ComboBoxItem Content="Debit Card" Tag="D" IsSelected="True" />
 			<ComboBoxItem Content="Credit Card" Tag="C" />
 		</ComboBox>

@@ -16,6 +16,7 @@ namespace Finances
     {
         private readonly IBillFacade _billFacade;
         private readonly IBillManager _billManager;
+        private readonly IScheduleBill _scheduleBill;
         private Wallet _wallet;
         private DateTime _date;
 
@@ -32,8 +33,13 @@ namespace Finances
 
             App.Init();
 
-            _billFacade = App.Services.GetRequiredService<IBillFacade>();
-            _billManager = App.Services.GetRequiredService<IBillManager>();
+            IServiceProvider services = Dependencies
+                .GetDependencies()
+                .BuildServiceProvider();
+
+            _billFacade = services.GetRequiredService<IBillFacade>();
+            _billManager = services.GetRequiredService<IBillManager>();
+            _scheduleBill = services.GetRequiredService<IScheduleBill>();
 
             _date = DateTime.Today;
             date.Content = _date.ToString("MMMM, yyyy");
@@ -129,6 +135,9 @@ namespace Finances
 
         private void Button_Click_Schedule(object sender, RoutedEventArgs e)
         {
+            var bill = _scheduleBill.Factory();
+            bill.ShowDialog();
+            LoadInterface();
         }
 
         private void BillList_SelectionChanged(object sender, SelectionChangedEventArgs e)
