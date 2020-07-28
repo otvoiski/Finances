@@ -14,28 +14,28 @@ namespace Finances.Facade
             _sqlService = sqlService;
         }
 
-        public List<Schedule> GetAllSchedules()
+        public IList<Schedule> GetAllSchedules()
         {
-            using SQLiteConnection db = _sqlService.Factory();
-            return db.Table<Schedule>().ToList();
+            return _sqlService
+                .ToList<Schedule>();
         }
 
         public bool Remove(Schedule schedule)
         {
-            using SQLiteConnection db = _sqlService.Factory();
-            return db.Table<Schedule>().Delete(x => x.Id == schedule.Id && x.BillId == schedule.BillId) > 0;
+            return _sqlService
+                .Delete<Schedule>(x => x.Id == schedule.Id && x.BillId == schedule.BillId) == 1;
         }
 
         public bool Save(Schedule schedule)
         {
-            using SQLiteConnection db = _sqlService.Factory();
-            return db.InsertOrReplace(schedule) > 0;
+            return _sqlService
+                .InsertOrReplace(schedule) == 1;
         }
     }
 
     public interface IScheduleFacade
     {
-        List<Schedule> GetAllSchedules();
+        IList<Schedule> GetAllSchedules();
 
         bool Remove(Schedule schedule);
 

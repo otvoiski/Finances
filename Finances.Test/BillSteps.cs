@@ -23,8 +23,8 @@ namespace Finances.Test
             _billModule = service.GetRequiredService<IBillModule>();
         }
 
-        [Given(@"have a bill")]
-        public void GivenHaveABill()
+        [Given(@"a data bill")]
+        public void GivenADataBill()
         {
             _data = Builder<DataBill>
                 .CreateNew()

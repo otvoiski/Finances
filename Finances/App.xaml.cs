@@ -18,23 +18,20 @@ namespace Finances
             string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             DataBasePath = Path.Combine(folderPath, "Finances", "Finances.db");
             var exists = File.Exists(DataBasePath);
-            var isFirstInit = !exists;
 
-            if (isFirstInit)
+            if (!exists)
             {
                 //Make sure folder exists
                 folderPath = Path.GetDirectoryName(DataBasePath);
                 Directory.CreateDirectory(folderPath);
                 File.CreateText(DataBasePath).Dispose();
-            }
 
-            if (isFirstInit)
-            {
-                var db = new SQLiteConnection(DataBasePath);
-                //Create schema
-                db.CreateTable<Installment>();
-                db.CreateTable<Bill>();
-                db.CreateTable<Schedule>();
+                using (var db = new SQLiteConnection(DataBasePath))
+                {
+                    //Create schema
+                    db.CreateTable<Bill>();
+                    db.CreateTable<Schedule>();
+                }
             }
         }
     }

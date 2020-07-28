@@ -44,10 +44,10 @@ namespace Finances
             _date = DateTime.Today;
             date.Content = _date.ToString("MMMM, yyyy");
 
-            LoadInterface();
+            LoadWallet();
         }
 
-        private void LoadInterface()
+        private void LoadWallet()
         {
             _wallet = new Wallet
             {
@@ -56,26 +56,26 @@ namespace Finances
 
             foreach (var bill in _wallet.Bills)
             {
-                _wallet.Balance += bill.Value;
+                _wallet.Balance += bill.Price;
 
-                _wallet.BillsToPay += !bill.IsPay
-                    ? bill.Value
+                _wallet.BillsToPay += !bill.IsPaid
+                    ? bill.Price
                     : 0;
 
-                _wallet.TotalBillsMonth += !bill.IsPay && bill.Date.Month == DateTime.Today.Month
-                    ? bill.Value
+                _wallet.TotalBillsMonth += !bill.IsPaid && bill.Date.Month == DateTime.Today.Month
+                    ? bill.Price
                     : 0;
 
-                _wallet.TotalBillsYear += !bill.IsPay && bill.Date.Year == DateTime.Today.Year
-                    ? bill.Value
+                _wallet.TotalBillsYear += !bill.IsPaid && bill.Date.Year == DateTime.Today.Year
+                    ? bill.Price
                     : 0;
 
-                _wallet.BillsPaidYear += bill.IsPay && bill.Payment?.Year == DateTime.Today.Year && bill.Value < 0
-                    ? bill.Value
+                _wallet.BillsPaidYear += bill.IsPaid && bill.Payment?.Year == DateTime.Today.Year && bill.Price < 0
+                    ? bill.Price
                     : 0;
 
-                _wallet.BillsCreditCardYear += !bill.IsPay && bill.Date.Year == DateTime.Today.Year && bill.Value < 0 && bill.Type == "C"
-                    ? bill.Value
+                _wallet.BillsCreditCardYear += !bill.IsPaid && bill.Date.Year == DateTime.Today.Year && bill.Price < 0 && bill.Type == "C"
+                    ? bill.Price
                     : 0;
             }
 
@@ -105,7 +105,7 @@ namespace Finances
         {
             var bill = _billManager.Factory();
             bill.ShowDialog();
-            LoadInterface();
+            LoadWallet();
         }
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
@@ -114,7 +114,7 @@ namespace Finances
             {
                 var bill = _billManager.Factory(_wallet.Bills[BillList.SelectedIndex]);
                 bill.ShowDialog();
-                LoadInterface();
+                LoadWallet();
             }
         }
 
@@ -124,11 +124,11 @@ namespace Finances
             {
                 var bill = _wallet.Bills[BillList.SelectedIndex];
 
-                var result = MessageBox.Show($"Do you want remove {bill.Description} on value ${bill.Value}?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show($"Do you want remove {bill.Description} on value ${bill.Price}?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    _billFacade.Remove(bill);
-                    LoadInterface();
+                    _billFacade.Delete(bill);
+                    LoadWallet();
                 }
             }
         }
@@ -137,7 +137,7 @@ namespace Finances
         {
             var bill = _scheduleBill.Factory();
             bill.ShowDialog();
-            LoadInterface();
+            LoadWallet();
         }
 
         private void BillList_SelectionChanged(object sender, SelectionChangedEventArgs e)

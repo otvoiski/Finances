@@ -5,11 +5,13 @@ namespace Finances.Module
 {
     public class BillModule : IBillModule
     {
-        public (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string value, string type, bool isPay)
+        public (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string value, string type, bool isPaid)
         {
             #region Empty Check
 
             if (string.IsNullOrWhiteSpace(description)) return (null, "Description can not is empty");
+
+            if (string.IsNullOrWhiteSpace(value)) return (null, "Value can not is empty");
 
             if (string.IsNullOrWhiteSpace(installment)) return (null, "Installment can not is empty");
 
@@ -25,7 +27,7 @@ namespace Finances.Module
 
             if (installmentNumber == 0) installmentNumber = 1;
 
-            if (!double.TryParse(value, out double valueNumber)) return (null, "Value is not a number");
+            if (!double.TryParse(value, out double price)) return (null, "Value is not a number");
 
             string typeBox;
 
@@ -55,14 +57,13 @@ namespace Finances.Module
             {
                 Date = date.GetValueOrDefault(),
                 Description = description,
+                Price = price,
                 Installment = installmentNumber,
-                Value = valueNumber,
                 Type = typeBox,
-                IsPay = isPay,
-                Payment = isPay
+                IsPaid = isPaid,
+                Payment = isPaid
                 ? DateTime.Now
                 : default,
-                Installments = null
             }, null);
         }
     }

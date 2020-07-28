@@ -3,6 +3,8 @@ using Finances.Service;
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 
 namespace Finances.Facade
 {
@@ -17,41 +19,35 @@ namespace Finances.Facade
 
         public IList<Bill> GetAllBills()
         {
-            using SQLiteConnection connection = _sqlService.Factory();
-            return connection
-                .Table<Bill>().ToList();
+            return _sqlService
+                .ToList<Bill>();
         }
 
         public bool Save(Bill bill)
         {
-            if (bill.IsPay)
-                bill.Payment = DateTime.Now;
+            //if (bill.IsPay)
+            //    bill.Payment = DateTime.Now;
 
-            using SQLiteConnection connection = _sqlService.Factory();
-            return connection
-                .InsertOrReplace(bill) > 0;
+            return false;
+            //return _sqlService.InsertOrReplace(bill) == 1;
         }
 
-        public bool Remove(Bill bill)
+        public bool Delete(Bill bill)
         {
-            using SQLiteConnection connection = _sqlService.Factory();
-            return connection
-                .Delete(bill) > 0;
+            return _sqlService
+                .Delete(bill) == 1;
         }
 
         public Bill GetBill(int billId)
         {
-            using SQLiteConnection connection = _sqlService.Factory();
-            return connection
-                .Table<Bill>()
-                .Where(x => x.Id == billId)
+            return _sqlService
+                .ToList<Bill>(x => x.Id == billId)
                 .FirstOrDefault();
         }
 
         public IList<Bill> FindBills(string description)
         {
-            using SQLiteConnection connection = _sqlService.Factory();
-            return connection
+            return _sqlService
                 .Query<Bill>("select * from Bill where Description like ?", $"%{description}%");
         }
     }
@@ -62,7 +58,7 @@ namespace Finances.Facade
 
         bool Save(Bill bill);
 
-        bool Remove(Bill bill);
+        bool Delete(Bill bill);
 
         Bill GetBill(int billId);
 

@@ -12,24 +12,21 @@ namespace Finances.Model
         [NotNull]
         public DateTime Date { get; set; }
 
-        public DateTime? Payment { get; set; }
+        [NotNull]
+        public double Price { get; set; }
 
         [NotNull]
-        public string Description { get; set; }
+        public bool IsPaid { get; set; }
+
+        public DateTime? Payment { get; set; }
 
         [NotNull]
         public int Installment { get; set; }
 
         [NotNull]
-        public double Value { get; set; }
+        public string Description { get; set; }
 
         [NotNull]
         public string Type { get; set; }
-
-        [NotNull]
-        public bool IsPay { get; set; }
-
-        [Ignore]
-        public IList<Installment> Installments { get; set; }
     }
 }

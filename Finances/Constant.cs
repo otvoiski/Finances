@@ -6,7 +6,7 @@ namespace Finances
     {
         private readonly IConfiguration _configuration;
 
-        public Constant(IConfigurationRoot configuration)
+        public Constant(IConfiguration configuration)
         {
             _configuration = configuration;
         }

@@ -60,12 +60,12 @@ namespace Finances
 
                 var bill = _billFacade.GetBill(schedule.BillId);
 
-                var result = MessageBox.Show($"Do you want remove {bill?.Description} on value ${bill?.Value}?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
-                {
-                    _scheduleFacade.Remove(schedule);
-                    LoadInterface();
-                }
+                //var result = MessageBox.Show($"Do you want remove {bill?.Description} on value ${bill?.Value}?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                //if (result == MessageBoxResult.Yes)
+                //{
+                //    _scheduleFacade.Remove(schedule);
+                //    LoadInterface();
+                //}
             }
         }
 

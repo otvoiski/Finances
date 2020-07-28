@@ -3,6 +3,7 @@ using Finances.Model;
 using Finances.Module;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Finances
 {
@@ -30,8 +31,6 @@ namespace Finances
 
             date.SelectedDate = DateTime.Now;
             description.Text = "";
-            installment.Text = "1";
-            installment.Visibility = Visibility.Hidden;
             value.Text = "-1";
             type.Text = "Debit Card";
             isPay.IsChecked = false;
@@ -47,12 +46,11 @@ namespace Finances
 
             date.SelectedDate = bill.Date;
             description.Text = bill.Description;
-            installment.Text = bill.Installment.ToString();
-            value.Text = bill.Value.ToString();
+            //value.Text = bill.Value.ToString();
             type.Text = bill.Type == "D"
                 ? "Debit Card"
                 : "Credit Card";
-            isPay.IsChecked = bill.IsPay;
+            //isPay.IsChecked = bill.IsPay;
 
             clickBotton.Content = "Edit bill";
 
@@ -87,22 +85,6 @@ namespace Finances
         {
             e.Cancel = true;
             Visibility = Visibility.Hidden;
-        }
-
-        private void Type_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            if (type.Text == "Debit Card")
-            {
-                installment.Visibility = Visibility.Visible;
-                installment.Text = "1";
-                installmentLabel.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                installment.Visibility = Visibility.Hidden;
-                installmentLabel.Visibility = Visibility.Hidden;
-                installment.Text = "1";
-            }
         }
     }
 
