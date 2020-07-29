@@ -1,4 +1,5 @@
-﻿using Finances.Model;
+﻿using Finances.Data;
+using Finances.Model;
 using SQLite;
 using SQLitePCL;
 using System;
@@ -10,6 +11,9 @@ namespace Finances.Service
 {
     public class SqlService : ISqlService
     {
+        private SQLiteConnection Factory()
+            => new SQLiteConnection(App.DataBasePath);
+
         public int Delete(object obj)
         {
             using SQLiteConnection connection = Factory();
@@ -32,12 +36,12 @@ namespace Finances.Service
                 .FindWithQuery<int>("SELECT last_insert_rowid()");
         }
 
-        public int InsertOrReplace(object obj)
+        public int Update(object obj)
         {
             using SQLiteConnection connection = Factory();
 
             return connection
-                .InsertOrReplace(obj);
+                .Update(obj);
         }
 
         public IList<T> Query<T>(string query, params object[] args) where T : new()
@@ -64,15 +68,21 @@ namespace Finances.Service
                 .ToList();
         }
 
-        private SQLiteConnection Factory()
-            => new SQLiteConnection(App.DataBasePath);
+        public int Insert(object obj)
+        {
+            using SQLiteConnection connection = Factory();
+            return connection
+                .Insert(obj);
+        }
     }
 
     public interface ISqlService
     {
         int GetLastInsertRowId();
 
-        int InsertOrReplace(object obj);
+        int Update(object obj);
+
+        int Insert(object obj);
 
         int Delete(object obj);
 

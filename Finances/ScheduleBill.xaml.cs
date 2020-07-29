@@ -13,7 +13,7 @@ namespace Finances
         private readonly IBillFacade _billFacade;
         private readonly IScheduleFacade _scheduleFacade;
         private readonly IScheduleManager _scheduleManager;
-        private IList<Schedule> _schedules;
+        private IList<ScheduleInteface> _schedules;
 
         public ScheduleBill(IScheduleFacade scheduleFacade, IBillFacade billFacade, IScheduleManager scheduleManager)
         {
@@ -37,6 +37,7 @@ namespace Finances
             deleteButton.IsEnabled = false;
 
             _schedules = _scheduleFacade.GetAllSchedules();
+            ScheduleList.ItemsSource = _schedules;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -60,12 +61,12 @@ namespace Finances
 
                 var bill = _billFacade.GetBill(schedule.BillId);
 
-                //var result = MessageBox.Show($"Do you want remove {bill?.Description} on value ${bill?.Value}?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                //if (result == MessageBoxResult.Yes)
-                //{
-                //    _scheduleFacade.Remove(schedule);
-                //    LoadInterface();
-                //}
+                var result = MessageBox.Show($"Do you want remove {bill?.Description} on value ${bill?.Price}?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    _scheduleFacade.Delete(new Data.Schedule { Id = schedule.Id });
+                    LoadInterface();
+                }
             }
         }
 
@@ -73,9 +74,14 @@ namespace Finances
         {
             if (ScheduleList.SelectedIndex >= 0)
             {
-                var schedule = _scheduleManager.Factory();
-                schedule.ShowDialog();
-                LoadInterface();
+                var item = _schedules[ScheduleList.SelectedIndex];
+
+                if (item != null)
+                {
+                    var schedule = _scheduleManager.Factory(item);
+                    schedule.ShowDialog();
+                    LoadInterface();
+                }
             }
         }
 

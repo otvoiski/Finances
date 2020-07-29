@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Finances.Model
+namespace Finances.Data
 {
     public class Bill
     {

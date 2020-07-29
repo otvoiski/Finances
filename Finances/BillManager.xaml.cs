@@ -1,4 +1,5 @@
-﻿using Finances.Facade;
+﻿using Finances.Data;
+using Finances.Facade;
 using Finances.Model;
 using Finances.Module;
 using System;
@@ -29,8 +30,12 @@ namespace Finances
 
             clickBotton.Content = "Add bill";
 
+            installmentLabel.Visibility = Visibility.Hidden;
+            installment.Visibility = Visibility.Hidden;
+
             date.SelectedDate = DateTime.Now;
             description.Text = "";
+            installment.Text = "1";
             value.Text = "-1";
             type.Text = "Debit Card";
             isPay.IsChecked = false;
@@ -38,7 +43,7 @@ namespace Finances
             return this;
         }
 
-        public BillManager Factory(Bill bill)
+        public BillManager Factory(BillInterface bill)
         {
             InitializeComponent();
 
@@ -46,11 +51,28 @@ namespace Finances
 
             date.SelectedDate = bill.Date;
             description.Text = bill.Description;
-            //value.Text = bill.Value.ToString();
-            type.Text = bill.Type == "D"
-                ? "Debit Card"
-                : "Credit Card";
-            //isPay.IsChecked = bill.IsPay;
+            value.Text = bill.Price.ToString();
+            installment.Text = bill.Installment.ToString();
+
+            if (bill.Type == "D")
+            {
+                //installmentLabel.Visibility = Visibility.Hidden;
+                //installment.Visibility = Visibility.Hidden;
+                installment.Text = "1";
+                type.Text = "Debit Card";
+            }
+            else
+            {
+                type.Text = "Credit Card";
+
+                //installmentLabel.Visibility = Visibility.Visible;
+                //installment.Visibility = Visibility.Visible;
+            }
+
+            installmentLabel.Visibility = Visibility.Hidden;
+            installment.Visibility = Visibility.Hidden;
+
+            isPay.IsChecked = bill.IsPaid;
 
             clickBotton.Content = "Edit bill";
 
@@ -65,7 +87,8 @@ namespace Finances
                 installment.Text,
                 value.Text,
                 type.Text,
-                isPay.IsChecked.GetValueOrDefault());
+                isPay.IsChecked.GetValueOrDefault(),
+                1);
 
             if (bill != null)
             {
@@ -86,12 +109,28 @@ namespace Finances
             e.Cancel = true;
             Visibility = Visibility.Hidden;
         }
+
+        private void Type_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selection = ((e.Source as ComboBox).SelectedItem as ComboBoxItem).Content as string;
+            if (selection == "Debit Card")
+            {
+                //installmentLabel.Visibility = Visibility.Hidden;
+                //installment.Visibility = Visibility.Hidden;
+            }
+
+            if (selection == "Credit Card")
+            {
+                //installmentLabel.Visibility = Visibility.Visible;
+                //installment.Visibility = Visibility.Visible;
+            }
+        }
     }
 
     internal interface IBillManager
     {
         BillManager Factory();
 
-        BillManager Factory(Bill bill);
+        BillManager Factory(BillInterface bill);
     }
 }

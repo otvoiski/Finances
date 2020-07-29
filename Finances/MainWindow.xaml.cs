@@ -93,7 +93,7 @@ namespace Finances
             editButton.IsEnabled = false;
             deleteButton.IsEnabled = false;
 
-            BillList.ItemsSource = _wallet.Bills.Where(x => x.Date.Month == _date.Month);
+            BillList.ItemsSource = _wallet.Bills.Where(x => x.Date.Month == _date.Month && x.Date.Year == _date.Year);
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -127,7 +127,7 @@ namespace Finances
                 var result = MessageBox.Show($"Do you want remove {bill.Description} on value ${bill.Price}?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    _billFacade.Delete(bill);
+                    _billFacade.Delete(bill.Id);
                     LoadWallet();
                 }
             }
@@ -158,12 +158,14 @@ namespace Finances
         {
             _date = new DateTime(_date.Ticks).AddMonths(1);
             date.Content = _date.ToString("MMMM, yyyy");
+            LoadWallet();
         }
 
         private void Arrow_left_Click(object sender, RoutedEventArgs e)
         {
             _date = new DateTime(_date.Ticks).AddMonths(-1);
             date.Content = _date.ToString("MMMM, yyyy");
+            LoadWallet();
         }
     }
 }

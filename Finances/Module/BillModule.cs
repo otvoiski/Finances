@@ -1,11 +1,12 @@
-﻿using Finances.Model;
+﻿using Finances.Data;
+using Finances.Model;
 using System;
 
 namespace Finances.Module
 {
     public class BillModule : IBillModule
     {
-        public (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string value, string type, bool isPaid)
+        public (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string value, string type, bool isPaid, int installmentNumber = 1)
         {
             #region Empty Check
 
@@ -13,7 +14,7 @@ namespace Finances.Module
 
             if (string.IsNullOrWhiteSpace(value)) return (null, "Value can not is empty");
 
-            if (string.IsNullOrWhiteSpace(installment)) return (null, "Installment can not is empty");
+            // if (type == "Credit Card" && string.IsNullOrWhiteSpace(installment)) return (null, "Installment can not is empty");
 
             if (string.IsNullOrWhiteSpace(value)) return (null, "Value can not is empty");
 
@@ -21,7 +22,7 @@ namespace Finances.Module
 
             #region Value Check
 
-            if (!int.TryParse(installment, out int installmentNumber)) return (null, "Installment is not a number");
+            //if (!int.TryParse(installment, out installmentNumber)) return (null, "Installment is not a number");
 
             if (installmentNumber < 0) return (null, "Installment number cannot minor of zero.");
 
@@ -63,13 +64,13 @@ namespace Finances.Module
                 IsPaid = isPaid,
                 Payment = isPaid
                 ? DateTime.Now
-                : default,
+                : default
             }, null);
         }
     }
 
     public interface IBillModule
     {
-        (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string value, string type, bool isPay);
+        (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string value, string type, bool isPay, int installmentNumber = 1);
     }
 }

@@ -22,11 +22,11 @@
 				  AlternatingRowBackground="LightGray" CanUserAddRows="False"
 				  CanUserDeleteRows="False" CanUserReorderColumns="False"
 				  CanUserResizeRows="False" CanUserSortColumns="True"
-				  KeyboardNavigation.TabNavigation="Cycle"
+				  KeyboardNavigation.TabNavigation="Cycle" IsReadOnly="True"
 				  MouseDoubleClick="ScheduleList_MouseDoubleClick">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Description" Width="*" Binding="{Binding Path=Description}" />
-						<DataGridTextColumn Header="$" Width="80" Binding="{Binding Path=Value}" />
+						<DataGridTextColumn Header="$" Width="80" Binding="{Binding Path=Price}" />
 					</DataGrid.Columns>
 				</DataGrid>
 			</StackPanel>

@@ -1,4 +1,5 @@
-﻿using Finances.Facade;
+﻿using Finances.Data;
+using Finances.Facade;
 using Finances.Model;
 using Finances.Service;
 using FizzWare.NBuilder;
@@ -39,14 +40,14 @@ namespace Finances.Test
         public void GivenPossibleInsertOnDatabase()
         {
             _sqlService
-                .InsertOrReplace(_bill)
+                .Update(_bill)
                 .Returns(1);
         }
 
         [Given(@"have (.*) installments")]
         public void GivenHaveInstallments(int size)
         {
-            //_bill.Installment = size;
+            _bill.Installment = size;
         }
 
         [When(@"you save bill")]

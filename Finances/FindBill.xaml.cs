@@ -1,4 +1,5 @@
-﻿using Finances.Facade;
+﻿using Finances.Data;
+using Finances.Facade;
 using Finances.Model;
 using System.Windows;
 using System.Windows.Input;
@@ -36,16 +37,13 @@ namespace Finances
 
         private void Button_Find(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(Find.Text))
+            var bills = _billFacade.FindBills(Find.Text);
+            if (bills.Count > 0)
             {
-                var bills = _billFacade.FindBills(Find.Text);
-                if (bills.Count > 0)
-                {
-                    BillList.ItemsSource = bills;
-                }
-                else
-                    MessageBox.Show($"Not found any bills!", "Find bill", MessageBoxButton.OK, MessageBoxImage.Information);
+                BillList.ItemsSource = bills;
             }
+            else
+                MessageBox.Show($"Not found any bills!", "Find bill", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public FindBill Factory()

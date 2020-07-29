@@ -46,4 +46,10 @@ Scenario: Add new bill but is credit card type
 	Given a data bill
 	And type is credit card
 	When validate bill
-	Then result should not be null;	
+	Then result should not be null;
+
+Scenario: Add new bill but is paid
+	Given a data bill
+	And is paid
+	When validate bill
+	Then result should not be null;

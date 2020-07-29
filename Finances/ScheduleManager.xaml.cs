@@ -1,8 +1,10 @@
-﻿using Finances.Facade;
+﻿using Finances.Data;
+using Finances.Facade;
 using Finances.Model;
 using Finances.Module;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Finances
 {
@@ -14,8 +16,8 @@ namespace Finances
         private readonly IFindBill _findBill;
         private readonly IScheduleFacade _scheduleFacade;
         private readonly IScheduleModule _scheduleModule;
-        private Schedule _schedule;
-        private Bill _bill;
+        private int _scheduleId;
+        private int _billID;
 
         public ScheduleManager(IScheduleFacade scheduleFacade, IFindBill findBill, IScheduleModule scheduleModule)
         {
@@ -34,15 +36,24 @@ namespace Finances
         {
             (Schedule schedule, string error) = _scheduleModule
                 .Validate(
-                    _schedule.Id,
-                    _bill.Id,
+                    _scheduleId,
+                    _billID,
                     Installment.Text,
                     StartDate.SelectedDate,
                     Active.IsChecked.GetValueOrDefault());
             if (schedule != null)
             {
-                _scheduleFacade.Save(schedule);
-                Close();
+                try
+                {
+                    _scheduleFacade.Save(schedule);
+
+                    Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    throw;
+                }
             }
             else
             {
@@ -58,7 +69,11 @@ namespace Finances
             var bill = findBill.Bill;
             if (bill != null)
             {
-                _bill = bill;
+                _billID = bill.Id;
+
+                Description.Text = bill.Description;
+                Price.Text = bill.Price.ToString();
+
                 ConfirmButton.IsEnabled = true;
             }
             else
@@ -71,29 +86,63 @@ namespace Finances
         {
             InitializeComponent();
 
+            Description.Text = "";
+            _billID = 0;
+
+            Description.Text = "";
+            Price.Text = "";
+
             ConfirmButton.Content = "Add new schedule";
             ConfirmButton.IsEnabled = false;
 
+            StartDate.SelectedDate = DateTime.Today;
+
+            Installment.Text = "0";
+            EndDate.Content = "∞";
+
             return this;
         }
 
-        public ScheduleManager Factory(Schedule schedule)
+        public ScheduleManager Factory(ScheduleInteface schedule)
         {
             InitializeComponent();
 
-            _schedule = schedule;
+            _scheduleId = schedule.Id;
 
-            EndDate.Content = DateTime.Today;
+            Description.Text = schedule.Description;
+            Price.Text = schedule.Price.ToString();
+
+            Installment.Text = schedule.Installments.ToString();
+
+            if (schedule.Installments == 0)
+                EndDate.Content = "∞";
+            else
+                EndDate.Content = DateTime.Today.ToShortDateString();
+
+            StartDate.SelectedDate = schedule.Start;
+
+            Active.IsChecked = schedule.IsActive;
 
             ConfirmButton.Content = "Edit schedule";
+            ConfirmButton.IsEnabled = true;
             return this;
         }
 
-        private void Installment_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void Installment_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (int.TryParse(Installment.Text, out int installmentNumber) && installmentNumber > 0)
+            var text = e.Source as TextBox;
+
+            if (int.TryParse(text.Text, out int installmentNumber) && installmentNumber > 0)
             {
-                EndDate.Content = DateTime.Today.AddMonths(installmentNumber);
+                EndDate.Content = StartDate
+                    .SelectedDate
+                    .GetValueOrDefault()
+                    .AddMonths(installmentNumber).ToShortDateString();
+            }
+
+            if (installmentNumber == 0 && EndDate != null)
+            {
+                EndDate.Content = "∞";
             }
         }
     }
@@ -102,6 +151,6 @@ namespace Finances
     {
         ScheduleManager Factory();
 
-        ScheduleManager Factory(Schedule schedule);
+        ScheduleManager Factory(ScheduleInteface schedule);
     }
 }

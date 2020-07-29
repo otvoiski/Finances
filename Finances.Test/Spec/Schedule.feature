@@ -12,9 +12,15 @@ Scenario: Add one schedule but schedule id is 0
 	When you access validation
 	Then the result should not be null
 
-Scenario: Add one schedule but bill id is 0
+Scenario: Add one schedule but bill id is zero
 	Given have one schedule
 	And bill id is 0
+	When you access validation
+	Then the result should not be null
+
+Scenario: Add one schedule but bill id is less then zero
+	Given have one schedule
+	And bill id is -1
 	When you access validation
 	Then the result should be null
 

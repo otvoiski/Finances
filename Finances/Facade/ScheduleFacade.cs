@@ -1,7 +1,10 @@
-﻿using Finances.Model;
+﻿using Finances.Data;
+using Finances.Model;
 using Finances.Service;
 using SQLite;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Finances.Facade
 {
@@ -14,31 +17,52 @@ namespace Finances.Facade
             _sqlService = sqlService;
         }
 
-        public IList<Schedule> GetAllSchedules()
+        public bool Delete(Schedule schedule)
         {
             return _sqlService
-                .ToList<Schedule>();
+                .Delete(schedule) > 0;
         }
 
-        public bool Remove(Schedule schedule)
+        public IList<ScheduleInteface> GetAllSchedules()
         {
-            return _sqlService
-                .Delete<Schedule>(x => x.Id == schedule.Id && x.BillId == schedule.BillId) == 1;
+            var schedules = new List<ScheduleInteface>();
+            foreach (var schedule in _sqlService.ToList<Schedule>())
+            {
+                var bill = _sqlService.ToList<Bill>(x => x.Id == schedule.BillId).FirstOrDefault();
+
+                if (bill != null)
+                {
+                    schedules.Add(new ScheduleInteface
+                    {
+                        Id = schedule.Id,
+                        BillId = bill.Id,
+                        Description = bill.Description,
+                        IsActive = schedule.IsActive,
+                        End = schedule.End == default(DateTime)
+                        ? null
+                        : schedule.End,
+                        Installments = schedule.Installment,
+                        Start = schedule.Start,
+                        Price = bill.Price
+                    });
+                }
+            }
+            return schedules;
         }
 
         public bool Save(Schedule schedule)
         {
             return _sqlService
-                .InsertOrReplace(schedule) == 1;
+                .Update(schedule) == 1;
         }
     }
 
     public interface IScheduleFacade
     {
-        IList<Schedule> GetAllSchedules();
-
-        bool Remove(Schedule schedule);
+        IList<ScheduleInteface> GetAllSchedules();
 
         bool Save(Schedule schedule);
+
+        bool Delete(Schedule schedule);
     }
 }

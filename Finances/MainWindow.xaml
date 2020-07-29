@@ -40,25 +40,35 @@
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Header="Description" Width="200" Binding="{Binding Path=Description}" />
 				<DataGridTextColumn Header="I" Binding="{Binding Path=Installment}" />
-				<DataGridTextColumn Header="$" Binding="{Binding Path=Value}" />
+				<DataGridTextColumn Header="$" Binding="{Binding Path=Price}" />
 				<DataGridTextColumn Header="T" Binding="{Binding Path=Type}" />
-				<DataGridCheckBoxColumn Header="IsPay?" Width="*" Binding="{Binding Path=IsPay}" />
+				<DataGridCheckBoxColumn Header="Is Paid?" Width="*" Binding="{Binding Path=IsPaid}" />
 			</DataGrid.Columns>
 		</DataGrid>
-		<Button x:Name="arrow_left" Width="32" Height="32" Padding="5,5" HorizontalAlignment="Left" Margin="20,360,0,0" VerticalAlignment="Top" Grid.Column="1" Click="Arrow_left_Click">
+
+		<Button x:Name="arrow_left" Width="32" Height="32" Padding="5,5"
+				HorizontalAlignment="Left" Margin="20,20,0,0"
+				VerticalAlignment="Top" Grid.Column="1" Click="Arrow_left_Click">
 			<StackPanel>
 				<Image Source="Picture/left-arrow.png" />
 				<TextBlock>left</TextBlock>
 			</StackPanel>
 		</Button>
-		<Button x:Name="arrow_right" Width="32" Height="32" Padding="5,5" HorizontalAlignment="Left" Margin="488,360,0,0" VerticalAlignment="Top" Grid.Column="1" Click="Arrow_right_Click">
+
+		<Label x:Name="date" Content="July, 2020" HorizontalAlignment="Left"
+			   Margin="52,13,0,0" VerticalAlignment="Top" Width="417"
+			   VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFFFFFFA" Grid.Column="1" Height="43" FontSize="18" FontWeight="Bold" />
+
+		<Button x:Name="arrow_right" Width="32" Height="32" Padding="5,5"
+				HorizontalAlignment="Left" Margin="488,20,0,0"
+				VerticalAlignment="Top" Grid.Column="1" Click="Arrow_right_Click">
 			<StackPanel>
 				<Image Source="Picture/right-arrow.png" />
 				<TextBlock>right</TextBlock>
 			</StackPanel>
 		</Button>
+
 		<Label x:Name="balance" Content="$0,00" HorizontalAlignment="Right" Margin="0,19,22,0" VerticalAlignment="Top" Width="251" Foreground="#FFFFFFFA" FontSize="20" FontStyle="Normal" FontWeight="Normal" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Height="37" ToolTip="Total of your balance" />
-		<Label x:Name="date" Content="July, 2020" HorizontalAlignment="Left" Margin="20,13,0,0" VerticalAlignment="Top" Width="501" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFFFFFFA" Grid.Column="1" Height="43" FontSize="18" FontWeight="Bold" />
 		<Label Content="Bills to pay" HorizontalAlignment="Left" Margin="521,55,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="30" Width="189" Grid.Column="1" />
 		<Label Content="Total bills on month" HorizontalAlignment="Left" Margin="521,85,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="30" Width="189" Grid.Column="1" />
 		<Label x:Name="bills_to_pay" Content="0.00" HorizontalAlignment="Left" Margin="715,55,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="30" Width="74" Grid.Column="1" />

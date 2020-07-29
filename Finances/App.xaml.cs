@@ -1,6 +1,7 @@
-﻿using Finances.Model;
+﻿using Finances.Data;
 using SQLite;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
@@ -15,7 +16,9 @@ namespace Finances
 
         public static void Init()
         {
-            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string folderPath = !Debugger.IsAttached
+                ? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                : Environment.CurrentDirectory;
             DataBasePath = Path.Combine(folderPath, "Finances", "Finances.db");
             var exists = File.Exists(DataBasePath);
 
@@ -26,12 +29,10 @@ namespace Finances
                 Directory.CreateDirectory(folderPath);
                 File.CreateText(DataBasePath).Dispose();
 
-                using (var db = new SQLiteConnection(DataBasePath))
-                {
-                    //Create schema
-                    db.CreateTable<Bill>();
-                    db.CreateTable<Schedule>();
-                }
+                using var db = new SQLiteConnection(DataBasePath);
+                //Create schema
+                db.CreateTable<Bill>();
+                db.CreateTable<Schedule>();
             }
         }
     }

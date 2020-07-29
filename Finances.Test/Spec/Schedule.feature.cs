@@ -167,14 +167,14 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but bill id is 0")]
+        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but bill id is zero")]
         [Xunit.TraitAttribute("FeatureTitle", "Schedule")]
-        [Xunit.TraitAttribute("Description", "Add one schedule but bill id is 0")]
-        public virtual void AddOneScheduleButBillIdIs0()
+        [Xunit.TraitAttribute("Description", "Add one schedule but bill id is zero")]
+        public virtual void AddOneScheduleButBillIdIsZero()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but bill id is 0", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but bill id is zero", null, tagsOfScenario, argumentsOfScenario);
 #line 15
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -205,20 +205,20 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("you access validation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 19
- testRunner.Then("the result should be null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the result should not be null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but installment is empty")]
+        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but bill id is less then zero")]
         [Xunit.TraitAttribute("FeatureTitle", "Schedule")]
-        [Xunit.TraitAttribute("Description", "Add one schedule but installment is empty")]
-        public virtual void AddOneScheduleButInstallmentIsEmpty()
+        [Xunit.TraitAttribute("Description", "Add one schedule but bill id is less then zero")]
+        public virtual void AddOneScheduleButBillIdIsLessThenZero()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but installment is empty", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but bill id is less then zero", null, tagsOfScenario, argumentsOfScenario);
 #line 21
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -243,7 +243,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("have one schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 23
- testRunner.And("installment is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("bill id is -1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 24
  testRunner.When("you access validation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -255,14 +255,14 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but month is empty")]
+        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but installment is empty")]
         [Xunit.TraitAttribute("FeatureTitle", "Schedule")]
-        [Xunit.TraitAttribute("Description", "Add one schedule but month is empty")]
-        public virtual void AddOneScheduleButMonthIsEmpty()
+        [Xunit.TraitAttribute("Description", "Add one schedule but installment is empty")]
+        public virtual void AddOneScheduleButInstallmentIsEmpty()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but month is empty", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but installment is empty", null, tagsOfScenario, argumentsOfScenario);
 #line 27
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -287,7 +287,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("have one schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 29
- testRunner.And("month is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("installment is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 30
  testRunner.When("you access validation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -299,14 +299,14 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but installment is not a number")]
+        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but month is empty")]
         [Xunit.TraitAttribute("FeatureTitle", "Schedule")]
-        [Xunit.TraitAttribute("Description", "Add one schedule but installment is not a number")]
-        public virtual void AddOneScheduleButInstallmentIsNotANumber()
+        [Xunit.TraitAttribute("Description", "Add one schedule but month is empty")]
+        public virtual void AddOneScheduleButMonthIsEmpty()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but installment is not a number", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but month is empty", null, tagsOfScenario, argumentsOfScenario);
 #line 33
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -331,12 +331,56 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("have one schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 35
- testRunner.And("installment is not a number", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("month is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 36
  testRunner.When("you access validation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 37
+ testRunner.Then("the result should be null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but installment is not a number")]
+        [Xunit.TraitAttribute("FeatureTitle", "Schedule")]
+        [Xunit.TraitAttribute("Description", "Add one schedule but installment is not a number")]
+        public virtual void AddOneScheduleButInstallmentIsNotANumber()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but installment is not a number", null, tagsOfScenario, argumentsOfScenario);
+#line 39
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 40
+ testRunner.Given("have one schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 41
+ testRunner.And("installment is not a number", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 42
+ testRunner.When("you access validation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 43
  testRunner.Then("the result should be null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

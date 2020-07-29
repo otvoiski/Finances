@@ -1,4 +1,5 @@
-﻿using Finances.Model;
+﻿using Finances.Data;
+using Finances.Model;
 using Finances.Module;
 using Finances.Test.Model;
 using FizzWare.NBuilder;
@@ -34,10 +35,10 @@ namespace Finances.Test
                 .Build();
         }
 
-        [When(@"validate bill")]
-        public void WhenValidateBill()
+        [Given(@"is paid")]
+        public void GivenIsPaid()
         {
-            _result = _billModule.ValidateBill(_data.Date, _data.Description, _data.Installment, _data.Value, _data.Type, _data.IsPay);
+            _data.IsPaid = true;
         }
 
         [Given(@"description is empty")]
@@ -80,6 +81,12 @@ namespace Finances.Test
         public void GivenTypeIsCreditCard()
         {
             _data.Type = "Credit Card";
+        }
+
+        [When(@"validate bill")]
+        public void WhenValidateBill()
+        {
+            _result = _billModule.ValidateBill(_data.Date, _data.Description, _data.Installment, _data.Value, _data.Type, _data.IsPaid, int.Parse(_data.Installment));
         }
 
         [Then(@"result should not be null;")]
