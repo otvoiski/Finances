@@ -22,7 +22,9 @@ namespace Finances.Module
                 Installment = installmentNumber,
                 Start = start.GetValueOrDefault(),
                 End = installmentNumber > 0
-                    ? DateTime.Today.AddMonths(installmentNumber)
+                    ? start
+                        .GetValueOrDefault()
+                        .AddMonths(installmentNumber - 1)
                     : default,
                 IsActive = isActive
             }, "Ok!");

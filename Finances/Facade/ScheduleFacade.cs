@@ -182,7 +182,7 @@ namespace Finances.Facade
                 var bill = new Bill
                 {
                     Installment = $"{i + 1}/{schedule.Installment}", //add on bill at installment property the increment of variable i
-                    Date = schedule.Start.AddMonths(i + 1), // add more 1 in months on variable Date.
+                    Date = schedule.Start.AddMonths(i), // add i in months on variable Date.
                     Description = schedule.Description,
                     Price = schedule.Price,
                     IsPaid = false,

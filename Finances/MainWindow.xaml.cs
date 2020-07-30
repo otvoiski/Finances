@@ -56,7 +56,9 @@ namespace Finances
 
             foreach (var bill in _wallet.Bills)
             {
-                _wallet.Balance += bill.Price;
+                _wallet.Balance += bill.IsPaid
+                    ? bill.Price
+                    : 0;
 
                 _wallet.BillsToPay += !bill.IsPaid
                     ? bill.Price
@@ -75,6 +77,10 @@ namespace Finances
                     : 0;
 
                 _wallet.BillsCreditCardYear += !bill.IsPaid && bill.Date.Year == DateTime.Today.Year && bill.Price < 0 && bill.Type == "C"
+                    ? bill.Price
+                    : 0;
+
+                _wallet.BillsPaidMonth += bill.IsPaid && bill.Date.Month == DateTime.Today.Month
                     ? bill.Price
                     : 0;
             }

@@ -11,5 +11,6 @@ namespace Finances.Model
         public double TotalBillsYear { get; set; }
         public double BillsPaidYear { get; set; }
         public double BillsCreditCardYear { get; set; }
+        public double BillsPaidMonth { get; internal set; }
     }
 }

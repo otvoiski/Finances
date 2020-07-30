@@ -23,8 +23,46 @@ namespace Finances
             _scheduleModule = scheduleModule;
         }
 
+        public ScheduleManager Factory()
+        {
+            InitializeComponent();
+
+            Description.Text = "";
+            Price.Text = "-1";
+            StartDate.SelectedDate = DateTime.Today;
+            Installment.Text = "0";
+            EndDate.Content = "∞";
+            ConfirmButton.Content = "Add new schedule";
+            Active.IsChecked = true;
+            ConfirmButton.IsEnabled = false;
+            return this;
+        }
+
+        public ScheduleManager Factory(ScheduleInteface schedule)
+        {
+            InitializeComponent();
+
+            _scheduleId = schedule.Id;
+            Description.Text = schedule.Description;
+            Price.Text = schedule.Price.ToString();
+            Installment.Text = schedule.Installments.ToString();
+            StartDate.SelectedDate = schedule.Start;
+
+            if (schedule.Installments == 0)
+                EndDate.Content = "∞";
+            else
+                EndDate.Content = schedule
+                    .Start
+                    .AddMonths(schedule.Installments)
+                    .ToShortDateString();
+            Active.IsChecked = schedule.IsActive;
+            ConfirmButton.Content = "Edit schedule";
+            return this;
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            _scheduleId = 0;
             e.Cancel = true;
             Visibility = Visibility.Hidden;
         }
@@ -87,39 +125,6 @@ namespace Finances
             //}
         }
 
-        public ScheduleManager Factory()
-        {
-            InitializeComponent();
-
-            Description.Text = "";
-            Price.Text = "-1";
-            StartDate.SelectedDate = DateTime.Today;
-            Installment.Text = "0";
-            EndDate.Content = "∞";
-            ConfirmButton.Content = "Add new schedule";
-            Active.IsChecked = true;
-            ConfirmButton.IsEnabled = false;
-            return this;
-        }
-
-        public ScheduleManager Factory(ScheduleInteface schedule)
-        {
-            InitializeComponent();
-
-            _scheduleId = schedule.Id;
-            Description.Text = schedule.Description;
-            Price.Text = schedule.Price.ToString();
-            Installment.Text = schedule.Installments.ToString();
-            if (schedule.Installments == 0)
-                EndDate.Content = "∞";
-            else
-                EndDate.Content = DateTime.Today.ToShortDateString();
-            StartDate.SelectedDate = schedule.Start;
-            Active.IsChecked = schedule.IsActive;
-            ConfirmButton.Content = "Edit schedule";
-            return this;
-        }
-
         private void Installment_TextChanged(object sender, TextChangedEventArgs e)
         {
             ChangeEndDate((e.Source as TextBox).Text);
@@ -132,7 +137,7 @@ namespace Finances
                 EndDate.Content = StartDate
                     .SelectedDate
                     .GetValueOrDefault()
-                    .AddMonths(installmentNumber).ToShortDateString();
+                    .AddMonths(installmentNumber - 1).ToShortDateString();
             }
 
             if (installmentNumber == 0 && EndDate != null)

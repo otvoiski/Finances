@@ -116,6 +116,8 @@ namespace Finances
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            _billId = 0;
+
             e.Cancel = true;
             Visibility = Visibility.Hidden;
         }
