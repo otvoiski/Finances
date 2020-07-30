@@ -89,7 +89,7 @@ namespace Finances.Facade
 
         public bool Save(Schedule schedule)
         {
-            if (schedule.Installment > 0 && schedule.Installment <= 60)
+            if (schedule.Installment >= 0 && schedule.Installment <= 60)
             {
                 if (schedule.Id > 0)
                 {
