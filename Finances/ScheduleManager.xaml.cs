@@ -13,15 +13,12 @@ namespace Finances
     /// </summary>
     public partial class ScheduleManager : Window, IScheduleManager
     {
-        private readonly IFindBill _findBill;
         private readonly IScheduleFacade _scheduleFacade;
         private readonly IScheduleModule _scheduleModule;
         private int _scheduleId;
-        private int _billID;
 
-        public ScheduleManager(IScheduleFacade scheduleFacade, IFindBill findBill, IScheduleModule scheduleModule)
+        public ScheduleManager(IScheduleFacade scheduleFacade, IScheduleModule scheduleModule)
         {
-            _findBill = findBill;
             _scheduleFacade = scheduleFacade;
             _scheduleModule = scheduleModule;
         }
@@ -37,7 +34,8 @@ namespace Finances
             (Schedule schedule, string error) = _scheduleModule
                 .Validate(
                     _scheduleId,
-                    _billID,
+                    Description.Text,
+                    Price.Text,
                     Installment.Text,
                     StartDate.SelectedDate,
                     Active.IsChecked.GetValueOrDefault());
@@ -45,7 +43,14 @@ namespace Finances
             {
                 try
                 {
-                    _scheduleFacade.Save(schedule);
+                    schedule.Id = _scheduleId;
+
+                    if (!_scheduleFacade.Save(schedule))
+                    {
+                        MessageBox.Show("Error on save schedule!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
+                    Error.Content = "";
 
                     Close();
                 }
@@ -63,23 +68,23 @@ namespace Finances
 
         private void Button_Find(object sender, RoutedEventArgs e)
         {
-            var findBill = _findBill.Factory();
-            findBill.ShowDialog();
+            //var findBill = _findBill.Factory();
+            //findBill.ShowDialog();
 
-            var bill = findBill.Bill;
-            if (bill != null)
-            {
-                _billID = bill.Id;
+            //var bill = findBill.Bill;
+            //if (bill != null)
+            //{
+            //    //_billID = bill.Id;
 
-                Description.Text = bill.Description;
-                Price.Text = bill.Price.ToString();
+            //    Description.Text = bill.Description;
+            //    Price.Text = bill.Price.ToString();
 
-                ConfirmButton.IsEnabled = true;
-            }
-            else
-            {
-                ConfirmButton.IsEnabled = false;
-            }
+            //    ConfirmButton.IsEnabled = true;
+            //}
+            //else
+            //{
+            //    ConfirmButton.IsEnabled = false;
+            //}
         }
 
         public ScheduleManager Factory()
@@ -87,19 +92,13 @@ namespace Finances
             InitializeComponent();
 
             Description.Text = "";
-            _billID = 0;
-
-            Description.Text = "";
-            Price.Text = "";
-
-            ConfirmButton.Content = "Add new schedule";
-            ConfirmButton.IsEnabled = false;
-
+            Price.Text = "-1";
             StartDate.SelectedDate = DateTime.Today;
-
             Installment.Text = "0";
             EndDate.Content = "∞";
-
+            ConfirmButton.Content = "Add new schedule";
+            Active.IsChecked = true;
+            ConfirmButton.IsEnabled = false;
             return this;
         }
 
@@ -108,31 +107,27 @@ namespace Finances
             InitializeComponent();
 
             _scheduleId = schedule.Id;
-
             Description.Text = schedule.Description;
             Price.Text = schedule.Price.ToString();
-
             Installment.Text = schedule.Installments.ToString();
-
             if (schedule.Installments == 0)
                 EndDate.Content = "∞";
             else
                 EndDate.Content = DateTime.Today.ToShortDateString();
-
             StartDate.SelectedDate = schedule.Start;
-
             Active.IsChecked = schedule.IsActive;
-
             ConfirmButton.Content = "Edit schedule";
-            ConfirmButton.IsEnabled = true;
             return this;
         }
 
-        private void Installment_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void Installment_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var text = e.Source as TextBox;
+            ChangeEndDate((e.Source as TextBox).Text);
+        }
 
-            if (int.TryParse(text.Text, out int installmentNumber) && installmentNumber > 0)
+        private void ChangeEndDate(string installment)
+        {
+            if (int.TryParse(installment, out int installmentNumber) && installmentNumber > 0)
             {
                 EndDate.Content = StartDate
                     .SelectedDate
@@ -143,6 +138,23 @@ namespace Finances
             if (installmentNumber == 0 && EndDate != null)
             {
                 EndDate.Content = "∞";
+            }
+        }
+
+        private void StartDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ChangeEndDate(Installment?.Text);
+        }
+
+        private void Description_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace((e.Source as TextBox)?.Text))
+            {
+                ConfirmButton.IsEnabled = false;
+            }
+            else
+            {
+                ConfirmButton.IsEnabled = true;
             }
         }
     }

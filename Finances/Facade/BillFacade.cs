@@ -23,23 +23,12 @@ namespace Finances.Facade
                         .ToList<Bill>();
             foreach (var b in bills)
             {
-                int total = 1;
-
-                var schedule = _sqlService
-                    .ToList<Schedule>(x => x.BillId == b.Id)?
-                    .FirstOrDefault();
-
-                if (schedule != null)
-                {
-                    total = schedule.End.GetValueOrDefault().Month - DateTime.Today.Month;
-                }
-
                 i.Add(new BillInterface
                 {
                     Date = b.Date,
                     Id = b.Id,
                     Description = b.Description,
-                    Installment = $"{b.Installment}/{total}",
+                    Installment = b.Installment,
                     IsPaid = b.IsPaid,
                     Payment = b.Payment,
                     Price = b.Price,
@@ -54,21 +43,24 @@ namespace Finances.Facade
             if (bill.IsPaid)
                 bill.Payment = DateTime.Now;
 
+            if (bill.Type == "C" && string.IsNullOrEmpty(bill.Installment))
+            {
+                bill.Installment = "1/1";
+            }
+            else
+            {
+                bill.Installment = null;
+            }
+
             return bill.Id > 0
                 ? _sqlService.Update(bill) == 1
                 : _sqlService.Insert(bill) == 1;
         }
 
-        public bool Delete(int id)
+        public Bill GetBill(int billId)
         {
             return _sqlService
-                .Delete(id) == 1;
-        }
-
-        public Data.Bill GetBill(int billId)
-        {
-            return _sqlService
-                .ToList<Data.Bill>(x => x.Id == billId)
+                .ToList<Bill>(x => x.Id == billId)
                 .FirstOrDefault();
         }
 
@@ -85,18 +77,40 @@ namespace Finances.Facade
                     .Query<Bill>("select * from Bill where Description like ?", $"%{description}%");
             }
         }
+
+        public bool IsSchedule(int id)
+        {
+            // You cannot remove the invoice with part of the installment, so please remove the schedule first!
+            return _sqlService
+                .ToList<Installment>(x => x.BillId == id)?
+                .Count() > 0;
+        }
+
+        public bool Delete(int id)
+        {
+            return _sqlService
+                .Delete(new Bill { Id = id }) == 1;
+        }
+
+        public bool Delete(Bill bill)
+        {
+            return _sqlService
+                .Delete(bill) == 1;
+        }
     }
 
     public interface IBillFacade
     {
-        IList<Model.BillInterface> GetAllBills();
+        IList<BillInterface> GetAllBills();
 
-        bool Save(Data.Bill bill);
+        bool Save(Bill bill);
 
         bool Delete(int id);
 
-        Data.Bill GetBill(int billId);
+        Bill GetBill(int billId);
 
-        IList<Data.Bill> FindBills(string description);
+        IList<Bill> FindBills(string description);
+
+        bool IsSchedule(int id);
     }
 }

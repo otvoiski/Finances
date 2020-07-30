@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Finances"
         mc:Ignorable="d"
-        Title="Find a bill" Height="200" Width="350" WindowStartupLocation="CenterScreen"
+        Title="Find a bill" Height="220" Width="350" WindowStartupLocation="CenterScreen"
 		ResizeMode="NoResize" Closing="Window_Closing" Background="#222">
 	<Grid Margin="5">
 		<StackPanel Orientation="Vertical">

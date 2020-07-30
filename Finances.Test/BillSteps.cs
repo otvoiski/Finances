@@ -35,14 +35,14 @@ namespace Finances.Test
                 .Build();
         }
 
-        [Given(@"is paid")]
+        [Given(@"data is paid")]
         public void GivenIsPaid()
         {
             _data.IsPaid = true;
         }
 
-        [Given(@"description is empty")]
-        public void GivenDescriptionIsEmpty()
+        [Given(@"bill description is empty")]
+        public void GivenBillDescriptionIsEmpty()
         {
             _data.Description = null;
         }
@@ -77,7 +77,7 @@ namespace Finances.Test
             _data.Type = null;
         }
 
-        [Given(@"type is credit card")]
+        [Given(@"data type is credit card")]
         public void GivenTypeIsCreditCard()
         {
             _data.Type = "Credit Card";
@@ -86,7 +86,7 @@ namespace Finances.Test
         [When(@"validate bill")]
         public void WhenValidateBill()
         {
-            _result = _billModule.ValidateBill(_data.Date, _data.Description, _data.Installment, _data.Value, _data.Type, _data.IsPaid, int.Parse(_data.Installment));
+            _result = _billModule.ValidateBill(_data.Date, _data.Description, _data.Installment, _data.Value, _data.Type, _data.IsPaid);
         }
 
         [Then(@"result should not be null;")]

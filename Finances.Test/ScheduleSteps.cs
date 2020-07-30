@@ -31,19 +31,26 @@ namespace Finances.Test
             _data = Builder<DataSchedule>
                 .CreateNew()
                 .With(x => x.Installment = "0")
+                .With(x => x.Price = "-1")
                 .Build();
+        }
+
+        [Given(@"price is empty")]
+        public void GivenPriceIsEmpty()
+        {
+            _data.Price = string.Empty;
+        }
+
+        [Given(@"schedule description is empty")]
+        public void GivenScheduleDescriptionIsEmpty()
+        {
+            _data.Description = string.Empty;
         }
 
         [Given(@"schedule id is (.*)")]
         public void GivenScheduleIdIs(int zero)
         {
             _data.ScheduleId = zero;
-        }
-
-        [Given(@"bill id is (.*)")]
-        public void GivenBillIdIs(int zero)
-        {
-            _data.BillId = zero;
         }
 
         [Given(@"installment is empty")]
@@ -67,7 +74,7 @@ namespace Finances.Test
         [When(@"you access validation")]
         public void WhenYouAccessValidation()
         {
-            _result = _scheduleModule.Validate(_data.ScheduleId, _data.BillId, _data.Installment, _data.Start, false);
+            _result = _scheduleModule.Validate(_data.ScheduleId, _data.Description, _data.Price, _data.Installment, _data.Start, false);
         }
 
         [Then(@"the result should not be null")]

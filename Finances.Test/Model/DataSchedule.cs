@@ -8,5 +8,7 @@ namespace Finances.Test.Model
         public int BillId { get; set; }
         public string Installment { get; set; }
         public DateTime? Start { get; set; }
+        public string Price { get; set; }
+        public string Description { get; internal set; }
     }
 }

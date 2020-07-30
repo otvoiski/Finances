@@ -36,6 +36,12 @@ namespace Finances.Test
                 .Build();
         }
 
+        [Given(@"is paid")]
+        public void GivenIsPaid()
+        {
+            _bill.IsPaid = true;
+        }
+
         [Given(@"possible insert on database")]
         public void GivenPossibleInsertOnDatabase()
         {
@@ -47,7 +53,13 @@ namespace Finances.Test
         [Given(@"have (.*) installments")]
         public void GivenHaveInstallments(int size)
         {
-            _bill.Installment = size;
+            _bill.Installment = size.ToString();
+        }
+
+        [Given(@"type is credit card")]
+        public void GivenTypeIsCreditCard()
+        {
+            _bill.Type = "Credit Card";
         }
 
         [When(@"you save bill")]

@@ -29,13 +29,6 @@ namespace Finances.Service
                 .Delete(predExpr);
         }
 
-        public int GetLastInsertRowId()
-        {
-            using SQLiteConnection connection = Factory();
-            return connection
-                .FindWithQuery<int>("SELECT last_insert_rowid()");
-        }
-
         public int Update(object obj)
         {
             using SQLiteConnection connection = Factory();
@@ -74,11 +67,18 @@ namespace Finances.Service
             return connection
                 .Insert(obj);
         }
+
+        public SQLiteConnection BeginTransaction()
+        {
+            var connection = Factory();
+            connection.BeginTransaction();
+            return connection;
+        }
     }
 
     public interface ISqlService
     {
-        int GetLastInsertRowId();
+        SQLiteConnection BeginTransaction();
 
         int Update(object obj);
 

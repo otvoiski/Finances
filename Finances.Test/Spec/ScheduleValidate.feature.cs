@@ -19,7 +19,7 @@ namespace Finances.Test.Spec
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.3.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class ScheduleFeature : object, Xunit.IClassFixture<ScheduleFeature.FixtureData>, System.IDisposable
+    public partial class ScheduleValidateFeature : object, Xunit.IClassFixture<ScheduleValidateFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace Finances.Test.Spec
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "Schedule.feature"
+#line 1 "ScheduleValidate.feature"
 #line hidden
         
-        public ScheduleFeature(ScheduleFeature.FixtureData fixtureData, Finances_Test_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public ScheduleValidateFeature(ScheduleValidateFeature.FixtureData fixtureData, Finances_Test_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,7 +40,7 @@ namespace Finances.Test.Spec
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Schedule", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Schedule Validate", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -81,13 +81,13 @@ namespace Finances.Test.Spec
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Add one schedule")]
-        [Xunit.TraitAttribute("FeatureTitle", "Schedule")]
+        [Xunit.TraitAttribute("FeatureTitle", "Schedule Validate")]
         [Xunit.TraitAttribute("Description", "Add one schedule")]
-        [Xunit.TraitAttribute("Category", "Schedule")]
+        [Xunit.TraitAttribute("Category", "ScheduleValidate")]
         public virtual void AddOneSchedule()
         {
             string[] tagsOfScenario = new string[] {
-                    "Schedule"};
+                    "ScheduleValidate"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule", null, tagsOfScenario, argumentsOfScenario);
 #line 4
@@ -124,7 +124,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but schedule id is 0")]
-        [Xunit.TraitAttribute("FeatureTitle", "Schedule")]
+        [Xunit.TraitAttribute("FeatureTitle", "Schedule Validate")]
         [Xunit.TraitAttribute("Description", "Add one schedule but schedule id is 0")]
         public virtual void AddOneScheduleButScheduleIdIs0()
         {
@@ -167,14 +167,14 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but bill id is zero")]
-        [Xunit.TraitAttribute("FeatureTitle", "Schedule")]
-        [Xunit.TraitAttribute("Description", "Add one schedule but bill id is zero")]
-        public virtual void AddOneScheduleButBillIdIsZero()
+        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but description is empty")]
+        [Xunit.TraitAttribute("FeatureTitle", "Schedule Validate")]
+        [Xunit.TraitAttribute("Description", "Add one schedule but description is empty")]
+        public virtual void AddOneScheduleButDescriptionIsEmpty()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but bill id is zero", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but description is empty", null, tagsOfScenario, argumentsOfScenario);
 #line 15
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -199,26 +199,26 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("have one schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 17
- testRunner.And("bill id is 0", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("schedule description is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 18
  testRunner.When("you access validation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 19
- testRunner.Then("the result should not be null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the result should be null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but bill id is less then zero")]
-        [Xunit.TraitAttribute("FeatureTitle", "Schedule")]
-        [Xunit.TraitAttribute("Description", "Add one schedule but bill id is less then zero")]
-        public virtual void AddOneScheduleButBillIdIsLessThenZero()
+        [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but price is empty")]
+        [Xunit.TraitAttribute("FeatureTitle", "Schedule Validate")]
+        [Xunit.TraitAttribute("Description", "Add one schedule but price is empty")]
+        public virtual void AddOneScheduleButPriceIsEmpty()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but bill id is less then zero", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add one schedule but price is empty", null, tagsOfScenario, argumentsOfScenario);
 #line 21
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -243,7 +243,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("have one schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 23
- testRunner.And("bill id is -1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("price is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 24
  testRunner.When("you access validation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -256,7 +256,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but installment is empty")]
-        [Xunit.TraitAttribute("FeatureTitle", "Schedule")]
+        [Xunit.TraitAttribute("FeatureTitle", "Schedule Validate")]
         [Xunit.TraitAttribute("Description", "Add one schedule but installment is empty")]
         public virtual void AddOneScheduleButInstallmentIsEmpty()
         {
@@ -300,7 +300,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but month is empty")]
-        [Xunit.TraitAttribute("FeatureTitle", "Schedule")]
+        [Xunit.TraitAttribute("FeatureTitle", "Schedule Validate")]
         [Xunit.TraitAttribute("Description", "Add one schedule but month is empty")]
         public virtual void AddOneScheduleButMonthIsEmpty()
         {
@@ -344,7 +344,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Add one schedule but installment is not a number")]
-        [Xunit.TraitAttribute("FeatureTitle", "Schedule")]
+        [Xunit.TraitAttribute("FeatureTitle", "Schedule Validate")]
         [Xunit.TraitAttribute("Description", "Add one schedule but installment is not a number")]
         public virtual void AddOneScheduleButInstallmentIsNotANumber()
         {
@@ -394,12 +394,12 @@ this.ScenarioInitialize(scenarioInfo);
             
             public FixtureData()
             {
-                ScheduleFeature.FeatureSetup();
+                ScheduleValidateFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                ScheduleFeature.FeatureTearDown();
+                ScheduleValidateFeature.FeatureTearDown();
             }
         }
     }

@@ -20,7 +20,5 @@ namespace Finances.Model
 
         public bool IsActive { get; set; }
         public double Price { get; set; }
-
-        public IList<BillInterface> Bills { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace Finances.Test.Spec
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.3.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class BillFeature : object, Xunit.IClassFixture<BillFeature.FixtureData>, System.IDisposable
+    public partial class BillValidateFeature : object, Xunit.IClassFixture<BillValidateFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace Finances.Test.Spec
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "Bill.feature"
+#line 1 "BillValidate.feature"
 #line hidden
         
-        public BillFeature(BillFeature.FixtureData fixtureData, Finances_Test_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public BillValidateFeature(BillValidateFeature.FixtureData fixtureData, Finances_Test_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,7 +40,7 @@ namespace Finances.Test.Spec
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Bill", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "BillValidate", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -81,13 +81,13 @@ namespace Finances.Test.Spec
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Add new bill")]
-        [Xunit.TraitAttribute("FeatureTitle", "Bill")]
+        [Xunit.TraitAttribute("FeatureTitle", "BillValidate")]
         [Xunit.TraitAttribute("Description", "Add new bill")]
-        [Xunit.TraitAttribute("Category", "mytag")]
+        [Xunit.TraitAttribute("Category", "BillValidate")]
         public virtual void AddNewBill()
         {
             string[] tagsOfScenario = new string[] {
-                    "mytag"};
+                    "BillValidate"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new bill", null, tagsOfScenario, argumentsOfScenario);
 #line 4
@@ -124,7 +124,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Add new bill but description is empty")]
-        [Xunit.TraitAttribute("FeatureTitle", "Bill")]
+        [Xunit.TraitAttribute("FeatureTitle", "BillValidate")]
         [Xunit.TraitAttribute("Description", "Add new bill but description is empty")]
         public virtual void AddNewBillButDescriptionIsEmpty()
         {
@@ -155,7 +155,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("a data bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 11
- testRunner.And("description is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("bill description is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
  testRunner.When("validate bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -168,7 +168,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Add new bill but date is null")]
-        [Xunit.TraitAttribute("FeatureTitle", "Bill")]
+        [Xunit.TraitAttribute("FeatureTitle", "BillValidate")]
         [Xunit.TraitAttribute("Description", "Add new bill but date is null")]
         public virtual void AddNewBillButDateIsNull()
         {
@@ -212,7 +212,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Add new bill but installment is zero")]
-        [Xunit.TraitAttribute("FeatureTitle", "Bill")]
+        [Xunit.TraitAttribute("FeatureTitle", "BillValidate")]
         [Xunit.TraitAttribute("Description", "Add new bill but installment is zero")]
         public virtual void AddNewBillButInstallmentIsZero()
         {
@@ -255,14 +255,14 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Add new bill but installment is less than zero")]
-        [Xunit.TraitAttribute("FeatureTitle", "Bill")]
-        [Xunit.TraitAttribute("Description", "Add new bill but installment is less than zero")]
-        public virtual void AddNewBillButInstallmentIsLessThanZero()
+        [Xunit.SkippableFactAttribute(DisplayName="Add new bill but value empty")]
+        [Xunit.TraitAttribute("FeatureTitle", "BillValidate")]
+        [Xunit.TraitAttribute("Description", "Add new bill but value empty")]
+        public virtual void AddNewBillButValueEmpty()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new bill but installment is less than zero", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new bill but value empty", null, tagsOfScenario, argumentsOfScenario);
 #line 27
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -287,7 +287,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("a data bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 29
- testRunner.And("installment is less than -1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("value is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 30
  testRunner.When("validate bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -299,14 +299,14 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Add new bill but value empty")]
-        [Xunit.TraitAttribute("FeatureTitle", "Bill")]
-        [Xunit.TraitAttribute("Description", "Add new bill but value empty")]
-        public virtual void AddNewBillButValueEmpty()
+        [Xunit.SkippableFactAttribute(DisplayName="Add new bill but type empty")]
+        [Xunit.TraitAttribute("FeatureTitle", "BillValidate")]
+        [Xunit.TraitAttribute("Description", "Add new bill but type empty")]
+        public virtual void AddNewBillButTypeEmpty()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new bill but value empty", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new bill but type empty", null, tagsOfScenario, argumentsOfScenario);
 #line 33
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -331,7 +331,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("a data bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 35
- testRunner.And("value is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("type is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 36
  testRunner.When("validate bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -343,14 +343,14 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Add new bill but type empty")]
-        [Xunit.TraitAttribute("FeatureTitle", "Bill")]
-        [Xunit.TraitAttribute("Description", "Add new bill but type empty")]
-        public virtual void AddNewBillButTypeEmpty()
+        [Xunit.SkippableFactAttribute(DisplayName="Add new bill but is credit card type")]
+        [Xunit.TraitAttribute("FeatureTitle", "BillValidate")]
+        [Xunit.TraitAttribute("Description", "Add new bill but is credit card type")]
+        public virtual void AddNewBillButIsCreditCardType()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new bill but type empty", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new bill but is credit card type", null, tagsOfScenario, argumentsOfScenario);
 #line 39
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -375,26 +375,26 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("a data bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 41
- testRunner.And("type is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("data type is credit card", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 42
  testRunner.When("validate bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 43
- testRunner.Then("result should be null;", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("result should not be null;", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Add new bill but is credit card type")]
-        [Xunit.TraitAttribute("FeatureTitle", "Bill")]
-        [Xunit.TraitAttribute("Description", "Add new bill but is credit card type")]
-        public virtual void AddNewBillButIsCreditCardType()
+        [Xunit.SkippableFactAttribute(DisplayName="Add new bill but is paid")]
+        [Xunit.TraitAttribute("FeatureTitle", "BillValidate")]
+        [Xunit.TraitAttribute("Description", "Add new bill but is paid")]
+        public virtual void AddNewBillButIsPaid()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new bill but is credit card type", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new bill but is paid", null, tagsOfScenario, argumentsOfScenario);
 #line 45
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -419,56 +419,12 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("a data bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 47
- testRunner.And("type is credit card", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("data is paid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 48
  testRunner.When("validate bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 49
- testRunner.Then("result should not be null;", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.SkippableFactAttribute(DisplayName="Add new bill but is paid")]
-        [Xunit.TraitAttribute("FeatureTitle", "Bill")]
-        [Xunit.TraitAttribute("Description", "Add new bill but is paid")]
-        public virtual void AddNewBillButIsPaid()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new bill but is paid", null, tagsOfScenario, argumentsOfScenario);
-#line 51
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 52
- testRunner.Given("a data bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 53
- testRunner.And("is paid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 54
- testRunner.When("validate bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 55
  testRunner.Then("result should not be null;", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -482,12 +438,12 @@ this.ScenarioInitialize(scenarioInfo);
             
             public FixtureData()
             {
-                BillFeature.FeatureSetup();
+                BillValidateFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                BillFeature.FeatureTearDown();
+                BillValidateFeature.FeatureTearDown();
             }
         }
     }

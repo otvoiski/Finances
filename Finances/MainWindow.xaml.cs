@@ -120,14 +120,21 @@ namespace Finances
 
         private void Button_Click_Remove(object sender, RoutedEventArgs e)
         {
-            if (BillList.SelectedIndex >= 0)
+            BillInterface bill = BillList.SelectedItem as BillInterface;
+            if (bill != null)
             {
-                var bill = _wallet.Bills[BillList.SelectedIndex];
-
-                var result = MessageBox.Show($"Do you want remove {bill.Description} on value ${bill.Price}?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show($"Do you want remove {bill.Description} on price {bill.Price}$ ?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    _billFacade.Delete(bill.Id);
+                    if (_billFacade.IsSchedule(bill.Id))
+                    {
+                        MessageBox.Show("You cannot remove the invoice with part of the installment, so please remove the schedule first!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                    else
+                    {
+                        _billFacade.Delete(bill.Id);
+                    }
+
                     LoadWallet();
                 }
             }

@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Finances"
         mc:Ignorable="d"
-        Title="ScheduleManager" Height="279" Width="250" ResizeMode="NoResize"
+        Title="ScheduleManager" Height="280" Width="250" ResizeMode="NoResize"
 		WindowStartupLocation="CenterScreen" Background="#222" Closing="Window_Closing">
 	<Grid Margin="10">
 		<StackPanel Width="80" Height="180" Margin="0,0,10,0"
 					HorizontalAlignment="Left" VerticalAlignment="Top">
-			<Label Content="Find bill" HorizontalAlignment="Right" Foreground="White" />
+			<Label Content="Find bill" HorizontalAlignment="Right" Foreground="White" Visibility="Hidden" />
 			<Label Content="Description" HorizontalAlignment="Right" Foreground="White" />
 			<Label Content="$" HorizontalAlignment="Right" Foreground="White" />
 			<Label Content="Installments" HorizontalAlignment="Right" Foreground="White" />
@@ -21,16 +21,16 @@
 
 		<StackPanel Width="100" Height="180" Margin="10,0,0,0"
 					HorizontalAlignment="Right" VerticalAlignment="Top">
-			<Button Click="Button_Find">
+			<Button Click="Button_Find" Visibility="Hidden">
 				<StackPanel Orientation="Horizontal">
 					<Image Source="Picture/search.png" Width="16" Height="16" Margin="0,0,5,0" />
 					<TextBlock>Find bill</TextBlock>
 				</StackPanel>
 			</Button>
-			<TextBox x:Name="Description" Margin="0,10,0,0" IsEnabled="False" />
-			<TextBox x:Name="Price" Margin="0,10,0,0" IsEnabled="False" />
+			<TextBox x:Name="Description" Margin="0,10,0,0" TextChanged="Description_TextChanged" />
+			<TextBox x:Name="Price" Margin="0,10,0,0" Text="-1" />
 			<TextBox x:Name="Installment" Margin="0,10,0,0" Text="0" TextChanged="Installment_TextChanged" />
-			<DatePicker x:Name="StartDate" Margin="0,2,0,0" Text="Bill description" />
+			<DatePicker x:Name="StartDate" Margin="0,2,0,0" Text="Bill description" SelectedDateChanged="StartDate_SelectedDateChanged" />
 			<Label x:Name="EndDate" Content="27/07/2020" Foreground="White" />
 			<CheckBox x:Name="Active" Margin="0,5,0,0" IsChecked="True" />
 		</StackPanel>

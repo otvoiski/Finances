@@ -35,7 +35,7 @@ namespace Finances
 
             date.SelectedDate = DateTime.Now;
             description.Text = "";
-            installment.Text = "1";
+            installment.Text = string.Empty;
             value.Text = "-1";
             type.Text = "Debit Card";
             isPay.IsChecked = false;
@@ -52,13 +52,13 @@ namespace Finances
             date.SelectedDate = bill.Date;
             description.Text = bill.Description;
             value.Text = bill.Price.ToString();
-            installment.Text = bill.Installment.ToString();
+            installment.Text = bill.Installment?.ToString();
 
             if (bill.Type == "D")
             {
                 //installmentLabel.Visibility = Visibility.Hidden;
                 //installment.Visibility = Visibility.Hidden;
-                installment.Text = "1";
+                installment.Text = string.Empty;
                 type.Text = "Debit Card";
             }
             else
@@ -87,14 +87,24 @@ namespace Finances
                 installment.Text,
                 value.Text,
                 type.Text,
-                isPay.IsChecked.GetValueOrDefault(),
-                1);
+                isPay.IsChecked.GetValueOrDefault());
 
             if (bill != null)
             {
                 bill.Id = _billId;
 
-                _billFacade.Save(bill);
+                if (_billFacade.IsSchedule(bill.Id))
+                {
+                    MessageBox.Show("This invoice has part of installment, so please manager in schedule!", "Fail", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    if (!_billFacade.Save(bill))
+                    {
+                        MessageBox.Show("Error on save bill!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    Error.Content = "";
+                }
 
                 Close();
             }
@@ -112,18 +122,18 @@ namespace Finances
 
         private void Type_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selection = ((e.Source as ComboBox).SelectedItem as ComboBoxItem).Content as string;
-            if (selection == "Debit Card")
-            {
-                //installmentLabel.Visibility = Visibility.Hidden;
-                //installment.Visibility = Visibility.Hidden;
-            }
+            //var selection = ((e.Source as ComboBox).SelectedItem as ComboBoxItem).Content as string;
+            //if (selection == "Debit Card")
+            //{
+            //installmentLabel.Visibility = Visibility.Hidden;
+            //installment.Visibility = Visibility.Hidden;
+            //}
 
-            if (selection == "Credit Card")
-            {
-                //installmentLabel.Visibility = Visibility.Visible;
-                //installment.Visibility = Visibility.Visible;
-            }
+            //if (selection == "Credit Card")
+            //{
+            //installmentLabel.Visibility = Visibility.Visible;
+            //installment.Visibility = Visibility.Visible;
+            //}
         }
     }
 

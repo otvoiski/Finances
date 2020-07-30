@@ -6,17 +6,17 @@ namespace Finances.Module
 {
     public class BillModule : IBillModule
     {
-        public (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string value, string type, bool isPaid, int installmentNumber = 1)
+        public (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string priceString, string type, bool isPaid)
         {
             #region Empty Check
 
             if (string.IsNullOrWhiteSpace(description)) return (null, "Description can not is empty");
 
-            if (string.IsNullOrWhiteSpace(value)) return (null, "Value can not is empty");
+            if (string.IsNullOrWhiteSpace(priceString)) return (null, "Price can not is empty");
 
             // if (type == "Credit Card" && string.IsNullOrWhiteSpace(installment)) return (null, "Installment can not is empty");
 
-            if (string.IsNullOrWhiteSpace(value)) return (null, "Value can not is empty");
+            if (string.IsNullOrWhiteSpace(priceString)) return (null, "Price can not is empty");
 
             #endregion Empty Check
 
@@ -24,11 +24,11 @@ namespace Finances.Module
 
             //if (!int.TryParse(installment, out installmentNumber)) return (null, "Installment is not a number");
 
-            if (installmentNumber < 0) return (null, "Installment number cannot minor of zero.");
+            //if (installmentNumber < 0) return (null, "Installment number cannot minor of zero.");
 
-            if (installmentNumber == 0) installmentNumber = 1;
+            //if (installmentNumber == 0) installmentNumber = 1;
 
-            if (!double.TryParse(value, out double price)) return (null, "Value is not a number");
+            if (!double.TryParse(priceString, out double priceNumber)) return (null, "Value is not a number");
 
             string typeBox;
 
@@ -58,8 +58,8 @@ namespace Finances.Module
             {
                 Date = date.GetValueOrDefault(),
                 Description = description,
-                Price = price,
-                Installment = installmentNumber,
+                Price = priceNumber,
+                Installment = installment,
                 Type = typeBox,
                 IsPaid = isPaid,
                 Payment = isPaid
@@ -71,6 +71,6 @@ namespace Finances.Module
 
     public interface IBillModule
     {
-        (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string value, string type, bool isPay, int installmentNumber = 1);
+        (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string value, string type, bool isPay);
     }
 }

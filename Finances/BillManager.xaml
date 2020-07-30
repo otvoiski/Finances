@@ -27,6 +27,9 @@
 			<ComboBoxItem Content="Credit Card" Tag="C" />
 		</ComboBox>
 		<CheckBox x:Name="isPay" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="137,168,0,0" VerticalAlignment="Top" Width="177" />
-		<Button x:Name="clickBotton" Content="Confirm" HorizontalAlignment="Center" Height="36" Margin="0,217,0,0" VerticalAlignment="Top" Width="278" Click="Button_Click" />
+		<Button x:Name="clickBotton" Content="Confirm"
+				HorizontalAlignment="Center" Height="36"
+				Margin="0,217,0,0" VerticalAlignment="Top"
+				Width="278" Click="Button_Click" />
 	</Grid>
 </Window>

@@ -6,16 +6,19 @@ namespace Finances.Module
 {
     public class ScheduleModule : IScheduleModule
     {
-        public (Schedule schedule, string error) Validate(int id, int billId, string installment, DateTime? start, bool isActive)
+        public (Schedule schedule, string error) Validate(int scheduleId, string description, string price, string installment, DateTime? start, bool isActive)
         {
-            if (billId < 0) return (null, "You can have find a bill before add one schedule.");
+            if (string.IsNullOrWhiteSpace(description)) return (null, "Description can not is empty");
+            if (string.IsNullOrWhiteSpace(price)) return (null, "Value can not is empty");
+            if (scheduleId < 0) return (null, "Invalid schedule id");
             if (!int.TryParse(installment, out int installmentNumber)) return (null, "Installment is not a number.");
             if (installmentNumber < 0) return (null, "Installment number cannot minor of zero.");
+            if (!double.TryParse(price, out double priceNumber)) return (null, "Value is not a number");
 
             return (new Schedule
             {
-                Id = id,
-                BillId = billId,
+                Description = description,
+                Price = priceNumber,
                 Installment = installmentNumber,
                 Start = start.GetValueOrDefault(),
                 End = installmentNumber > 0
@@ -28,6 +31,6 @@ namespace Finances.Module
 
     public interface IScheduleModule
     {
-        (Schedule schedule, string error) Validate(int id, int billId, string parcel, DateTime? start, bool isActive);
+        (Schedule schedule, string error) Validate(int scheduleId, string description, string price, string installment, DateTime? start, bool isActive);
     }
 }

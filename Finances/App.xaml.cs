@@ -33,6 +33,7 @@ namespace Finances
                 //Create schema
                 db.CreateTable<Bill>();
                 db.CreateTable<Schedule>();
+                db.CreateTable<Installment>();
             }
         }
     }

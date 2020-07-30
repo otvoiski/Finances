@@ -20,8 +20,7 @@ namespace Finances.Data
 
         public DateTime? Payment { get; set; }
 
-        [NotNull]
-        public int Installment { get; set; }
+        public string Installment { get; set; }
 
         [NotNull]
         public string Description { get; set; }

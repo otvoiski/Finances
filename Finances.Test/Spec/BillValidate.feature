@@ -1,14 +1,14 @@
-﻿Feature: Bill
+﻿Feature: BillValidate
 
-@mytag
+@BillValidate
 Scenario: Add new bill
 	Given a data bill
 	When validate bill
 	Then result should not be null;
 
-Scenario: Add new bill but description is empty
+Scenario Outline: Add new bill but description is empty
 	Given a data bill
-	And description is empty
+	And bill description is empty
 	When validate bill
 	Then result should be null;
 
@@ -24,12 +24,6 @@ Scenario: Add new bill but installment is zero
 	When validate bill
 	Then result should not be null;
 
-Scenario: Add new bill but installment is less than zero
-	Given a data bill
-	And installment is less than -1
-	When validate bill
-	Then result should be null;
-
 Scenario: Add new bill but value empty
 	Given a data bill
 	And value is empty
@@ -44,12 +38,12 @@ Scenario: Add new bill but type empty
 
 Scenario: Add new bill but is credit card type
 	Given a data bill
-	And type is credit card
+	And data type is credit card
 	When validate bill
 	Then result should not be null;
 
 Scenario: Add new bill but is paid
 	Given a data bill
-	And is paid
+	And data is paid
 	When validate bill
 	Then result should not be null;

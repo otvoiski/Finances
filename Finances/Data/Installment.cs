@@ -7,6 +7,7 @@ namespace Finances.Data
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
+        [NotNull]
         public int ScheduleId { get; set; }
 
         [Indexed]

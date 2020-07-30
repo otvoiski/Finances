@@ -32,7 +32,6 @@ namespace Finances
                     .AddTransient<IBillManager, BillManager>()
                     .AddTransient<IScheduleManager, ScheduleManager>()
                     .AddTransient<IScheduleBill, ScheduleBill>()
-                    .AddTransient<IFindBill, FindBill>()
             ;
         }
     }

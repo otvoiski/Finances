@@ -8,9 +8,6 @@ namespace Finances.Data
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        [Indexed]
-        public int BillId { get; set; }
-
         [NotNull]
         public int Installment { get; set; }
 
@@ -21,5 +18,11 @@ namespace Finances.Data
 
         [NotNull]
         public bool IsActive { get; set; }
+
+        [NotNull]
+        public string Description { get; set; }
+
+        [NotNull]
+        public double Price { get; set; }
     }
 }
