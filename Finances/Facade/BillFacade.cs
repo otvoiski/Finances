@@ -85,7 +85,27 @@ namespace Finances.Facade
                 .ToList<Schedule>(x => x.Description == bill.Description)
                 .Count > 0;
 
-            if (!haveScheduleWithDescription) return (true, null);
+            if (!haveScheduleWithDescription)
+            {
+                #region you didn't edit the description, but is this a installment??
+
+                var haveInstallment = _sqlService
+                        .ToList<Installment>(x => x.BillId == bill.Id)?
+                        .Count() > 0;
+
+                if (haveInstallment)
+                {
+                    #region you cannot remove an invoice that is part of a installment.
+
+                    return (false, "You cannot remove an invoice that is part of a installment!");
+
+                    #endregion you cannot remove an invoice that is part of a installment.
+                }
+                else
+                    return (true, null);
+
+                #endregion you didn't edit the description, but is this a installment??
+            }
 
             #endregion Is a schedule?
 
@@ -109,35 +129,18 @@ namespace Finances.Facade
                 }
                 else
                 {
-                    #region you didn't edit the description and passed, but is this a installment??
+                    #region Check delete flag
 
-                    var haveInstallment = _sqlService
-                            .ToList<Installment>(x => x.BillId == bill.Id)?
-                            .Count() > 0;
-
-                    if (haveInstallment)
+                    if (delete)
                     {
-                        #region you cannot remove an invoice that is part of a installment.
-
-                        return (false, "You cannot remove an invoice that is part of a installment!");
-
-                        #endregion you cannot remove an invoice that is part of a installment.
+                        return (false, "You cannot remove an invoice that is part of a schedule!");
                     }
                     else
                     {
-                        #region Check delete flag
-
-                        if (delete)
-                        {
-                            return (false, "You cannot remove an invoice that is part of a schedule!");
-                        }
-
-                        #endregion Check delete flag
-
                         return (true, null);
                     }
 
-                    #endregion you didn't edit the description and passed, but is this a installment??
+                    #endregion Check delete flag
                 }
 
                 #endregion ok, this is a edition, but can edit field?

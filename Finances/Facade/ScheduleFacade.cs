@@ -210,12 +210,10 @@ namespace Finances.Facade
             var valid = true;
 
             // Load invoices where the end date of the schedule is equal to null
-            var x = _sqlService
+            var schedules = _sqlService
                 .ToList<Schedule>(x =>
                     x.End == null &&
-                    x.IsActive == true);
-
-            var schedules = x
+                    x.IsActive == true)
                 .Where(x =>
                     x.Start.Month == DateTime.Today.Month &&
                     x.Start.Year == DateTime.Today.Year);
@@ -226,8 +224,7 @@ namespace Finances.Facade
                 var bill = _sqlService
                     .ToList<Bill>(x =>
                         x.Description == schedule.Description &&
-                        x.Type == "D" &&
-                        x.IsPaid == false)?
+                        x.Type == "D")?
                     .FirstOrDefault();
 
                 if (bill == null)

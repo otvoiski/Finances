@@ -26,18 +26,7 @@
 				  IsSynchronizedWithCurrentItem="False" HorizontalContentAlignment="Left"
 				  VerticalContentAlignment="Top" IsReadOnly="True" SelectionChanged="BillList_SelectionChanged">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Date" Width="80">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Date, StringFormat=\{0:dd/MM/yy\}}" ToolTip="Due Date" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-					<DataGridTemplateColumn.CellEditingTemplate>
-						<DataTemplate>
-							<DatePicker SelectedDate="{Binding Date, StringFormat=\{0:dd/MM/\}}" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellEditingTemplate>
-				</DataGridTemplateColumn>
+				<DataGridTextColumn Header="Date" Width="80" Binding="{Binding Date, StringFormat=\{0:dd/MM/yy\}}" />
 				<DataGridTextColumn Header="Description" Width="200" Binding="{Binding Path=Description}" />
 				<DataGridTextColumn Header="I" Binding="{Binding Path=Installment}" />
 				<DataGridTextColumn Header="$" Binding="{Binding Path=Price}" />
