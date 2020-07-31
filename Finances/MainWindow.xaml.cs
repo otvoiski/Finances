@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Finances
 {
@@ -29,13 +30,6 @@ namespace Finances
 
         public MainWindow()
         {
-            // Colors in Hex
-            // #080705 black
-            // #40434E charcoal
-            // #702632 wine
-            // #912F40 red violet
-            // #fffffa white
-
             InitializeComponent();
 
             App.Init();
@@ -149,7 +143,7 @@ namespace Finances
                 {
                     if (_billFacade.IsSchedule(bill.Id))
                     {
-                        MessageBox.Show("You cannot remove the invoice with part of the installment, so please remove the schedule first!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("You cannot remove an invoice that is part of a schedule; therefore, remove the schedule first!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                     else
                     {

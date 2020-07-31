@@ -104,27 +104,6 @@ namespace Finances
             }
         }
 
-        private void Button_Find(object sender, RoutedEventArgs e)
-        {
-            //var findBill = _findBill.Factory();
-            //findBill.ShowDialog();
-
-            //var bill = findBill.Bill;
-            //if (bill != null)
-            //{
-            //    //_billID = bill.Id;
-
-            //    Description.Text = bill.Description;
-            //    Price.Text = bill.Price.ToString();
-
-            //    ConfirmButton.IsEnabled = true;
-            //}
-            //else
-            //{
-            //    ConfirmButton.IsEnabled = false;
-            //}
-        }
-
         private void Installment_TextChanged(object sender, TextChangedEventArgs e)
         {
             ChangeEndDate((e.Source as TextBox).Text);

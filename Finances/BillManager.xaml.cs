@@ -121,22 +121,6 @@ namespace Finances
             e.Cancel = true;
             Visibility = Visibility.Hidden;
         }
-
-        private void Type_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //var selection = ((e.Source as ComboBox).SelectedItem as ComboBoxItem).Content as string;
-            //if (selection == "Debit Card")
-            //{
-            //installmentLabel.Visibility = Visibility.Hidden;
-            //installment.Visibility = Visibility.Hidden;
-            //}
-
-            //if (selection == "Credit Card")
-            //{
-            //installmentLabel.Visibility = Visibility.Visible;
-            //installment.Visibility = Visibility.Visible;
-            //}
-        }
     }
 
     internal interface IBillManager

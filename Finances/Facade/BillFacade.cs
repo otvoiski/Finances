@@ -80,7 +80,20 @@ namespace Finances.Facade
 
         public bool IsSchedule(int id)
         {
-            // You cannot remove the invoice with part of the installment, so please remove the schedule first!
+            var bill = _sqlService
+                .ToList<Bill>()
+                .FirstOrDefault();
+
+            if (bill != null)
+            {
+                return _sqlService
+                    .ToList<Schedule>(x =>
+                        x.Description == bill.Description &&
+                        x.Price == bill.Price)
+                    .FirstOrDefault() != null;
+            }
+
+            // You cannot remove an invoice that is part of a schedule.
             return _sqlService
                 .ToList<Installment>(x => x.BillId == id)?
                 .Count() > 0;

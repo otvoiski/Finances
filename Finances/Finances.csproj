@@ -4,6 +4,15 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <Authors>Otávio Voiski</Authors>
+    <Description>A simple finance administrator in .Net Core 3.1 and WPF
+</Description>
+    <Copyright>MIT License</Copyright>
+    <PackageProjectUrl>https://github.com/otvoiski/Finances</PackageProjectUrl>
+    <PackageIcon>finances.ico</PackageIcon>
+    <RepositoryUrl>https://github.com/otvoiski/Finances</RepositoryUrl>
+    <PackageTags>1.0</PackageTags>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +23,11 @@
     <None Remove="Picture\right-arrow.png" />
     <None Remove="Picture\search.png" />
     <None Remove="Picture\trash-can.png" />
+    <Content Include="Picture\finances.ico">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +62,12 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.6" />
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Finances.v3.ncrunchproject">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

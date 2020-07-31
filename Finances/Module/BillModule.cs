@@ -14,19 +14,11 @@ namespace Finances.Module
 
             if (string.IsNullOrWhiteSpace(priceString)) return (null, "Price can not is empty");
 
-            // if (type == "Credit Card" && string.IsNullOrWhiteSpace(installment)) return (null, "Installment can not is empty");
-
             if (string.IsNullOrWhiteSpace(priceString)) return (null, "Price can not is empty");
 
             #endregion Empty Check
 
             #region Value Check
-
-            //if (!int.TryParse(installment, out installmentNumber)) return (null, "Installment is not a number");
-
-            //if (installmentNumber < 0) return (null, "Installment number cannot minor of zero.");
-
-            //if (installmentNumber == 0) installmentNumber = 1;
 
             if (!double.TryParse(priceString, out double priceNumber)) return (null, "Value is not a number");
 

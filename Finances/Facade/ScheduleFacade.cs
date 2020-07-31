@@ -214,7 +214,7 @@ namespace Finances.Facade
             // Load invoices where the end date of the schedule is equal to null
             var x = _sqlService
                 .ToList<Schedule>(x =>
-                    x.End == default &&
+                    x.End == null &&
                     x.IsActive == true);
 
             var schedules = x

@@ -11,15 +11,9 @@ namespace Finances
         {
             _configuration = configuration;
         }
-
-        public int DaysForEnterSchedule()
-        {
-            return int.Parse(_configuration.GetSection("DaysForEnterSchedule").Value);
-        }
     }
 
     public interface IConstant
     {
-        int DaysForEnterSchedule();
     }
 }

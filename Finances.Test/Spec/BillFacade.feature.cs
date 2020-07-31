@@ -114,7 +114,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("a bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 6
- testRunner.And("possible insert on database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("possible insert on bill database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 7
  testRunner.When("you save bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -158,7 +158,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("a bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 12
- testRunner.And("possible insert on database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("possible insert on bill database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 13
  testRunner.And("have 2 installments", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -211,7 +211,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("is paid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 21
- testRunner.And("possible insert on database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("possible insert on bill database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 22
  testRunner.When("you save bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
