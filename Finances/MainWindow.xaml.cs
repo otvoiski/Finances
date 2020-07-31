@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Finances
 {
@@ -25,7 +24,6 @@ namespace Finances
 
         private readonly IScheduleBill _scheduleBill;
 
-        private Wallet _wallet;
         private DateTime _date;
 
         public MainWindow()
@@ -56,59 +54,64 @@ namespace Finances
         {
             _scheduleFacade.LoadSchedule();
 
-            _wallet = new Wallet
+            var bills = _billFacade.GetAllBills();
+
+            double Balance = 0,
+                BillsToPay = 0,
+                TotalBillsMonth = 0,
+                TotalBillsYear = 0,
+                BillsPaidYear = 0,
+                BillsCreditCardYear = 0,
+                BillsPaidMonth = 0;
+
+            foreach (var bill in bills)
             {
-                Bills = _billFacade.GetAllBills()
-            };
-
-            foreach (var bill in _wallet.Bills)
-            {
-                _wallet.Balance += bill.IsPaid
+                Balance += bill.IsPaid && bill.Date.Month <= DateTime.Today.Month && bill.Date.Year <= DateTime.Today.Year
                     ? bill.Price
                     : 0;
 
-                _wallet.BillsToPay += !bill.IsPaid
+                BillsToPay += !bill.IsPaid
                     ? bill.Price
                     : 0;
 
-                _wallet.TotalBillsMonth += !bill.IsPaid && bill.Date.Month == DateTime.Today.Month
+                TotalBillsMonth += !bill.IsPaid && bill.Date.Month == DateTime.Today.Month
                     ? bill.Price
                     : 0;
 
-                _wallet.TotalBillsYear += !bill.IsPaid && bill.Date.Year == DateTime.Today.Year
+                TotalBillsYear += !bill.IsPaid && bill.Date.Year == DateTime.Today.Year
                     ? bill.Price
                     : 0;
 
-                _wallet.BillsPaidYear += bill.IsPaid && bill.Payment?.Year == DateTime.Today.Year && bill.Price < 0
+                BillsPaidYear += bill.IsPaid && bill.Payment?.Year == DateTime.Today.Year && bill.Price < 0
                     ? bill.Price
                     : 0;
 
-                _wallet.BillsCreditCardYear += !bill.IsPaid && bill.Date.Year == DateTime.Today.Year && bill.Price < 0 && bill.Type == "C"
+                BillsCreditCardYear += !bill.IsPaid && bill.Date.Year == DateTime.Today.Year && bill.Price < 0 && bill.Type == "C"
                     ? bill.Price
                     : 0;
 
-                _wallet.BillsPaidMonth += bill.IsPaid && bill.Date.Month == DateTime.Today.Month
+                BillsPaidMonth += bill.IsPaid && bill.Date.Month == DateTime.Today.Month
                     ? bill.Price
                     : 0;
             }
 
-            balance.Foreground = _wallet.Balance >= 0
+            balance.Foreground = Balance >= 0
                 ? new SolidColorBrush(Colors.Green)
                 : balance.Foreground = new SolidColorBrush(Colors.Red);
 
-            balance.Content = $"${_wallet.Balance}";
-            bills_to_pay.Content = $"${_wallet.BillsToPay}";
-            total_bills_on_month.Content = $"${_wallet.TotalBillsMonth}";
-            total_bills_on_year.Content = $"${_wallet.TotalBillsYear}";
-            bills_paid_in_the_year.Content = $"${_wallet.BillsPaidYear}";
-            bills_on_credit_card_year.Content = $"${_wallet.BillsCreditCardYear}";
+            balance.Content = Balance.ToString();
+            bills_to_pay.Content = BillsToPay.ToString();
+            total_bills_on_month.Content = TotalBillsMonth.ToString();
+            total_bills_on_year.Content = TotalBillsYear.ToString();
+            bills_paid_in_the_year.Content = BillsPaidYear.ToString();
+            bills_on_credit_card_year.Content = BillsCreditCardYear.ToString();
 
             editButton.IsEnabled = false;
             deleteButton.IsEnabled = false;
 
-            BillList.ItemsSource = _wallet
-                .Bills
-                .Where(x => x.Date.Month == _date.Month && x.Date.Year == _date.Year);
+            BillList.ItemsSource = bills.Where(x =>
+                x.Date.Month == _date.Month &&
+                x.Date.Year == _date.Year);
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -118,32 +121,35 @@ namespace Finances
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-            var bill = _billManager.Factory();
-            bill.ShowDialog();
+            _billManager
+                .Factory()
+                .ShowDialog();
             LoadWallet();
         }
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
-            if (BillList.SelectedIndex >= 0)
+            if (BillList.SelectedItem is Bill bill)
             {
-                var bill = _billManager.Factory(_wallet.Bills[BillList.SelectedIndex]);
-                bill.ShowDialog();
+                _billManager
+                    .Factory(bill)
+                    .ShowDialog();
                 LoadWallet();
             }
         }
 
         private void Button_Click_Remove(object sender, RoutedEventArgs e)
         {
-            BillInterface bill = BillList.SelectedItem as BillInterface;
-            if (bill != null)
+            if (BillList.SelectedItem is Bill bill)
             {
                 var result = MessageBox.Show($"Do you want remove {bill.Description} on price {bill.Price}$ ?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    if (_billFacade.IsSchedule(bill.Id))
+                    (bool isSchedule, string error) = _billFacade.IsSchedule(bill, true);
+
+                    if (!isSchedule)
                     {
-                        MessageBox.Show("You cannot remove an invoice that is part of a schedule; therefore, remove the schedule first!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show(error, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                     else
                     {
@@ -157,14 +163,17 @@ namespace Finances
 
         private void Button_Click_Schedule(object sender, RoutedEventArgs e)
         {
-            var bill = _scheduleBill.Factory();
-            bill.ShowDialog();
+            _scheduleBill
+                .Factory()
+                .ShowDialog();
             LoadWallet();
         }
 
         private void BillList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (BillList.SelectedIndex >= 0)
+            var selection = e.Source as DataGrid;
+
+            if (selection.SelectedItem is Bill)
             {
                 editButton.IsEnabled = true;
                 deleteButton.IsEnabled = true;

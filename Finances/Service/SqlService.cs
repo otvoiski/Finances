@@ -1,11 +1,7 @@
-﻿using Finances.Data;
-using Finances.Model;
-using SQLite;
-using SQLitePCL;
+﻿using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text.RegularExpressions;
 
 namespace Finances.Service
 {

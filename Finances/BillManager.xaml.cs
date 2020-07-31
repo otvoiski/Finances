@@ -1,10 +1,8 @@
-﻿using Finances.Data;
-using Finances.Facade;
+﻿using Finances.Facade;
 using Finances.Model;
 using Finances.Module;
 using System;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Finances
 {
@@ -15,8 +13,7 @@ namespace Finances
     {
         private readonly IBillFacade _billFacade;
         private readonly IBillModule _billModule;
-
-        private int _billId = 0;
+        private int _billId;
 
         public BillManager(IBillFacade billFacade, IBillModule billModule)
         {
@@ -43,30 +40,25 @@ namespace Finances
             return this;
         }
 
-        public BillManager Factory(BillInterface bill)
+        public BillManager Factory(Bill bill)
         {
             InitializeComponent();
-
-            _billId = bill.Id;
 
             date.SelectedDate = bill.Date;
             description.Text = bill.Description;
             value.Text = bill.Price.ToString();
             installment.Text = bill.Installment?.ToString();
 
+            _billId = bill.Id;
+
             if (bill.Type == "D")
             {
-                //installmentLabel.Visibility = Visibility.Hidden;
-                //installment.Visibility = Visibility.Hidden;
                 installment.Text = string.Empty;
                 type.Text = "Debit Card";
             }
             else
             {
                 type.Text = "Credit Card";
-
-                //installmentLabel.Visibility = Visibility.Visible;
-                //installment.Visibility = Visibility.Visible;
             }
 
             installmentLabel.Visibility = Visibility.Hidden;
@@ -93,9 +85,12 @@ namespace Finances
             {
                 bill.Id = _billId;
 
-                if (_billFacade.IsSchedule(bill.Id))
+                (bool isSchedule, string isScheduleError) = _billFacade.IsSchedule(bill);
+
+                if (!isSchedule)
                 {
-                    MessageBox.Show("This invoice has part of installment, so please manager in schedule!", "Fail", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(isScheduleError, "Fail", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Close();
                 }
                 else
                 {
@@ -104,9 +99,8 @@ namespace Finances
                         MessageBox.Show("Error on save bill!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     Error.Content = "";
+                    Close();
                 }
-
-                Close();
             }
             else
             {
@@ -117,7 +111,6 @@ namespace Finances
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _billId = 0;
-
             e.Cancel = true;
             Visibility = Visibility.Hidden;
         }
@@ -127,6 +120,6 @@ namespace Finances
     {
         BillManager Factory();
 
-        BillManager Factory(BillInterface bill);
+        BillManager Factory(Bill bill);
     }
 }

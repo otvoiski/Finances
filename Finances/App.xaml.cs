@@ -1,4 +1,4 @@
-﻿using Finances.Data;
+﻿using Finances.Model;
 using SQLite;
 using System;
 using System.Diagnostics;

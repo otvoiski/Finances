@@ -1,5 +1,4 @@
-﻿using Finances.Data;
-using Finances.Model;
+﻿using Finances.Model;
 using System;
 
 namespace Finances.Module
