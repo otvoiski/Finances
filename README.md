@@ -1,12 +1,10 @@
-## Finances
+# Finances
 A simple finance administrator in .Net Core 3.1 and WPF
 
-## About
-This is only for amplifier my knowledge on WPF and C#
-
-## Install
-1. Download and unzip the project
-3. Open 
+## Installation
+1. Download for windows x64 or x32
+2. Unzip the project
+3. Open Finances.exe
 
 ## Contributing
 
