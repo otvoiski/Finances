@@ -13,6 +13,9 @@
     <RepositoryUrl>https://github.com/otvoiski/Finances</RepositoryUrl>
     <PackageTags>1.0</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
+    <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>
