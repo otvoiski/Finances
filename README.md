@@ -2,7 +2,7 @@
 A simple finance administrator in .Net Core 3.1 and WPF
 
 ## Installation
-1. Download for windows x64 or x32
+1. Download for windows x64 or x86
 2. Unzip the project
 3. Open Finances.exe
 
