@@ -1,15 +1,12 @@
-﻿using Finances.Data;
-using Finances.Facade;
+﻿using Finances.Facade;
+using Finances.Model;
 using Finances.Service;
 using FizzWare.NBuilder;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Shouldly;
-using SQLite;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using TechTalk.SpecFlow;
 
 namespace Finances.Test
@@ -17,8 +14,8 @@ namespace Finances.Test
     [Binding]
     public class LoadSchedueSteps
     {
-        private ISqlService _sqlService;
-        private IScheduleFacade _scheduleFacade;
+        private readonly ISqlService _sqlService;
+        private readonly IScheduleFacade _scheduleFacade;
         private IOperable<Schedule> _schedules;
         private bool _result;
 
@@ -73,7 +70,7 @@ namespace Finances.Test
         [Given(@"not exist this on table bill")]
         public void GivenNotExistThisOnTableBill()
         {
-            var x = _sqlService
+            _sqlService
                 .ToList<Bill>(default)
                 .ReturnsNullForAnyArgs();
         }
