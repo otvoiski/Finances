@@ -33,6 +33,7 @@ namespace Finances.Test
         {
             _bill = Builder<Bill>
                 .CreateNew()
+                .With(x => x.Id = 0)
                 .Build();
         }
 
@@ -42,12 +43,20 @@ namespace Finances.Test
             _bill.IsPaid = true;
         }
 
-        [Given(@"possible insert on database")]
+        [Given(@"possible insert on bill database")]
         public void GivenPossibleInsertOnDatabase()
         {
             _sqlService
-                .Update(_bill)
-                .Returns(1);
+                .Insert(_bill)
+                .ReturnsForAnyArgs(1);
+        }
+
+        [Given(@"not possible insert on bill database")]
+        public void GivenNotPossibleInsertOnDatabase()
+        {
+            _sqlService
+               .Insert(_bill)
+               .ReturnsForAnyArgs(0);
         }
 
         [Given(@"have (.*) installments")]

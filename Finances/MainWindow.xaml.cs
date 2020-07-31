@@ -14,9 +14,16 @@ namespace Finances
     /// </summary>
     public partial class MainWindow : Window
     {
+        // facades
         private readonly IBillFacade _billFacade;
+
+        private readonly IScheduleFacade _scheduleFacade;
+
+        // windows
         private readonly IBillManager _billManager;
+
         private readonly IScheduleBill _scheduleBill;
+
         private Wallet _wallet;
         private DateTime _date;
 
@@ -37,9 +44,13 @@ namespace Finances
                 .GetDependencies()
                 .BuildServiceProvider();
 
-            _billFacade = services.GetRequiredService<IBillFacade>();
+            // windows
             _billManager = services.GetRequiredService<IBillManager>();
             _scheduleBill = services.GetRequiredService<IScheduleBill>();
+
+            // facades
+            _billFacade = services.GetRequiredService<IBillFacade>();
+            _scheduleFacade = services.GetRequiredService<IScheduleFacade>();
 
             _date = DateTime.Today;
             date.Content = _date.ToString("MMMM, yyyy");
@@ -49,6 +60,8 @@ namespace Finances
 
         private void LoadWallet()
         {
+            _scheduleFacade.LoadSchedule();
+
             _wallet = new Wallet
             {
                 Bills = _billFacade.GetAllBills()
@@ -99,7 +112,9 @@ namespace Finances
             editButton.IsEnabled = false;
             deleteButton.IsEnabled = false;
 
-            BillList.ItemsSource = _wallet.Bills.Where(x => x.Date.Month == _date.Month && x.Date.Year == _date.Year);
+            BillList.ItemsSource = _wallet
+                .Bills
+                .Where(x => x.Date.Month == _date.Month && x.Date.Year == _date.Year);
         }
 
         private void Window_Closed(object sender, EventArgs e)

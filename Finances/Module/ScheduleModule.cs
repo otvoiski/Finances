@@ -25,7 +25,7 @@ namespace Finances.Module
                     ? start
                         .GetValueOrDefault()
                         .AddMonths(installmentNumber - 1)
-                    : default,
+                    : (DateTime?)null,
                 IsActive = isActive
             }, "Ok!");
         }

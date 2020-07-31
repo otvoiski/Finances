@@ -1,6 +1,7 @@
 ﻿using Finances.Data;
 using Finances.Model;
 using Finances.Service;
+using Microsoft.VisualBasic;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,8 @@ namespace Finances.Facade
                 valid &= transaction.Table<Bill>().Delete(x => x.Id == installment.BillId) > 0;
             }
 
-            valid &= transaction.Table<Installment>().Delete(x => x.ScheduleId == schedule.Id) > 0;
+            if (installments.Count > 0)
+                valid &= transaction.Table<Installment>().Delete(x => x.ScheduleId == schedule.Id) > 0;
 
             return valid;
         }
@@ -204,14 +206,63 @@ namespace Finances.Facade
 
             return valid;
         }
+
+        public bool LoadSchedule()
+        {
+            var valid = true;
+
+            // Load invoices where the end date of the schedule is equal to null
+            var x = _sqlService
+                .ToList<Schedule>(x =>
+                    x.End == default &&
+                    x.IsActive == true);
+
+            var schedules = x
+                .Where(x =>
+                    x.Start.Month == DateTime.Today.Month &&
+                    x.Start.Year == DateTime.Today.Year);
+
+            // verify on table bill if have the bill added.
+            foreach (var schedule in schedules)
+            {
+                var bill = _sqlService
+                    .ToList<Bill>(x =>
+                        x.Description == schedule.Description &&
+                        x.Price == schedule.Price &&
+                        x.Type == "D")?
+                    .FirstOrDefault();
+
+                if (bill == null)
+                {
+                    valid &= _sqlService.Insert(new Bill
+                    {
+                        // add new bill
+                        Date = new DateTime(
+                            DateTime.Today.Year,
+                            DateTime.Today.Month,
+                            schedule.Start.Day),
+                        Description = schedule.Description,
+                        Price = schedule.Price,
+                        Installment = null,
+                        Type = "D",
+                        IsPaid = false,
+                        Payment = null
+                    }) > 0;
+                }
+            }
+
+            return valid;
+        }
     }
-}
 
-public interface IScheduleFacade
-{
-    IList<ScheduleInteface> GetAllSchedules();
+    public interface IScheduleFacade
+    {
+        IList<ScheduleInteface> GetAllSchedules();
 
-    bool Save(Schedule schedule);
+        bool Save(Schedule schedule);
 
-    bool Delete(Schedule schedule);
+        bool Delete(Schedule schedule);
+
+        bool LoadSchedule();
+    }
 }
