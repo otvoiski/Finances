@@ -5,10 +5,8 @@ A simple finance administrator in .Net Core 3.1 and WPF
 This is only for amplifier my knowledge on WPF and C#
 
 # Install
-1. Download project
-2. You need generate database else you can add the function App.Seed() on constructor of MainWindow();
-3. Start
-4. Remove/Comment App.Seed() if you have added on constructor.
+1. Download and unzip the project
+3. Open 
 
 # Credits
 <div>Icons made by <a href="https://www.flaticon.com/authors/prosymbols" title="Prosymbols">Prosymbols</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
