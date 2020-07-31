@@ -1,5 +1,4 @@
-﻿using Finances.Data;
-using Finances.Model;
+﻿using Finances.Model;
 using Finances.Service;
 using System;
 using System.Collections.Generic;
@@ -16,14 +15,14 @@ namespace Finances.Facade
             _sqlService = sqlService;
         }
 
-        public IList<BillInterface> GetAllBills()
+        public IList<Bill> GetAllBills()
         {
-            var i = new List<BillInterface>();
+            var i = new List<Bill>();
             var bills = _sqlService
                         .ToList<Bill>();
             foreach (var b in bills)
             {
-                i.Add(new BillInterface
+                i.Add(new Bill
                 {
                     Date = b.Date,
                     Id = b.Id,
@@ -78,25 +77,81 @@ namespace Finances.Facade
             }
         }
 
-        public bool IsSchedule(int id)
+        public (bool isSchedule, string error) IsSchedule(Bill bill, bool delete = false)
         {
-            var bill = _sqlService
-                .ToList<Bill>()
+            #region Is a schedule?
+
+            var haveScheduleWithDescription = _sqlService
+                .ToList<Schedule>(x => x.Description == bill.Description)
+                .Count > 0;
+
+            if (!haveScheduleWithDescription) return (true, null);
+
+            #endregion Is a schedule?
+
+            #region if have, check this is edition or delete
+
+            var oldBill = _sqlService
+                .ToList<Bill>(x => x.Id == bill.Id)
                 .FirstOrDefault();
 
-            if (bill != null)
+            if (oldBill != null)
             {
-                return _sqlService
-                    .ToList<Schedule>(x =>
-                        x.Description == bill.Description &&
-                        x.Price == bill.Price)
-                    .FirstOrDefault() != null;
+                #region ok, this is a edition, but can edit field?
+
+                if (bill.Description != oldBill.Description)
+                {
+                    #region you cannot edit description if this is scheduled.
+
+                    return (false, "You cannot edit description if this is scheduled.");
+
+                    #endregion you cannot edit description if this is scheduled.
+                }
+                else
+                {
+                    #region you didn't edit the description and passed, but is this a installment??
+
+                    var haveInstallment = _sqlService
+                            .ToList<Installment>(x => x.BillId == bill.Id)?
+                            .Count() > 0;
+
+                    if (haveInstallment)
+                    {
+                        #region you cannot remove an invoice that is part of a installment.
+
+                        return (false, "You cannot remove an invoice that is part of a installment!");
+
+                        #endregion you cannot remove an invoice that is part of a installment.
+                    }
+                    else
+                    {
+                        #region Check delete flag
+
+                        if (delete)
+                        {
+                            return (false, "You cannot remove an invoice that is part of a schedule!");
+                        }
+
+                        #endregion Check delete flag
+
+                        return (true, null);
+                    }
+
+                    #endregion you didn't edit the description and passed, but is this a installment??
+                }
+
+                #endregion ok, this is a edition, but can edit field?
+            }
+            else
+            {
+                #region Is not edinting, but exist on schedule table.
+
+                return (false, "This invoice description already exists in on window of scheduling, change the description field!");
+
+                #endregion Is not edinting, but exist on schedule table.
             }
 
-            // You cannot remove an invoice that is part of a schedule.
-            return _sqlService
-                .ToList<Installment>(x => x.BillId == id)?
-                .Count() > 0;
+            #endregion if have, check this is edition or delete
         }
 
         public bool Delete(int id)
@@ -114,7 +169,7 @@ namespace Finances.Facade
 
     public interface IBillFacade
     {
-        IList<BillInterface> GetAllBills();
+        IList<Bill> GetAllBills();
 
         bool Save(Bill bill);
 
@@ -124,6 +179,6 @@ namespace Finances.Facade
 
         IList<Bill> FindBills(string description);
 
-        bool IsSchedule(int id);
+        (bool isSchedule, string error) IsSchedule(Bill bill, bool delete = false);
     }
 }

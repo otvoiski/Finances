@@ -1,7 +1,5 @@
-﻿using Finances.Data;
-using Finances.Model;
+﻿using Finances.Model;
 using Finances.Service;
-using Microsoft.VisualBasic;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -67,12 +65,12 @@ namespace Finances.Facade
             return valid;
         }
 
-        public IList<ScheduleInteface> GetAllSchedules()
+        public IList<Schedule> GetAllSchedules()
         {
-            var schedules = new List<ScheduleInteface>();
+            var schedules = new List<Schedule>();
             foreach (var schedule in _sqlService.ToList<Schedule>())
             {
-                schedules.Add(new ScheduleInteface
+                schedules.Add(new Schedule
                 {
                     Id = schedule.Id,
                     Description = schedule.Description,
@@ -80,7 +78,7 @@ namespace Finances.Facade
                     End = schedule.End == default(DateTime)
                     ? null
                     : schedule.End,
-                    Installments = schedule.Installment,
+                    Installment = schedule.Installment,
                     Start = schedule.Start,
                     Price = schedule.Price,
                 });
@@ -228,8 +226,8 @@ namespace Finances.Facade
                 var bill = _sqlService
                     .ToList<Bill>(x =>
                         x.Description == schedule.Description &&
-                        x.Price == schedule.Price &&
-                        x.Type == "D")?
+                        x.Type == "D" &&
+                        x.IsPaid == false)?
                     .FirstOrDefault();
 
                 if (bill == null)
@@ -257,7 +255,7 @@ namespace Finances.Facade
 
     public interface IScheduleFacade
     {
-        IList<ScheduleInteface> GetAllSchedules();
+        IList<Schedule> GetAllSchedules();
 
         bool Save(Schedule schedule);
 
