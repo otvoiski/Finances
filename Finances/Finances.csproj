@@ -24,10 +24,14 @@
     <None Remove="Picture\pencil.png" />
     <None Remove="Picture\right-arrow.png" />
     <None Remove="Picture\search.png" />
+    <None Remove="Picture\share.png" />
     <None Remove="Picture\trash-can.png" />
     <Content Include="Picture\finances.ico">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Picture\share.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="..\LICENSE">

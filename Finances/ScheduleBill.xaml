@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Schedules" Height="280" Width="606" Background="#FF222222"
 		WindowStartupLocation="CenterScreen" Closing="Window_Closing" ResizeMode="NoResize">
+
 	<Grid Margin="5">
 		<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 			<DataGrid x:Name="ScheduleList" Height="250" AutoGenerateColumns="False"
@@ -16,11 +17,12 @@
 				  KeyboardNavigation.TabNavigation="Cycle" IsReadOnly="True"
 				  SelectionChanged="ScheduleList_SelectionChanged">
 				<DataGrid.Columns>
-					<DataGridTextColumn Header="Description" Width="*" Binding="{Binding Path=Description}" />
-					<DataGridTextColumn Header="$" Width="80" Binding="{Binding Path=Price}" />
-					<DataGridTextColumn Header="Installments" Width="80" Binding="{Binding Path=Installments}" />
-					<DataGridTextColumn Header="Start" Width="100" Binding="{Binding Path=Start, StringFormat=\{0:dd/MM/yy\}}" />
-					<DataGridTextColumn Header="End" Width="100" Binding="{Binding Path=End, StringFormat=\{0:dd/MM/yy\}}" />
+					<DataGridTextColumn Header="Description" Width="Auto" Binding="{Binding Description}" />
+					<DataGridTextColumn Header="Price" Width="2*" Binding="{Binding Price, StringFormat=c, ConverterCulture='pt-br'}" />
+					<DataGridTextColumn Header="Installments" Width="Auto" Binding="{Binding Installment}" />
+					<DataGridTextColumn Header="Start" Width="*" Binding="{Binding Start, StringFormat=\{0:dd/MM/yy\}}" />
+					<DataGridTextColumn Header="End" Width="*" Binding="{Binding End, StringFormat=\{0:dd/MM/yy\}}" />
+
 					<DataGridCheckBoxColumn Header="Is Active?" Width="*" Binding="{Binding Path=IsActive}" />
 				</DataGrid.Columns>
 			</DataGrid>

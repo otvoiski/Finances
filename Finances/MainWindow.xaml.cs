@@ -2,7 +2,9 @@
 using Finances.Model;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -56,62 +58,45 @@ namespace Finances
 
             var bills = _billFacade.GetAllBills();
 
-            double Balance = 0,
-                BillsToPay = 0,
-                TotalBillsMonth = 0,
-                TotalBillsYear = 0,
-                BillsPaidYear = 0,
-                BillsCreditCardYear = 0,
-                BillsPaidMonth = 0;
+            BillList.ItemsSource = bills.Where(x =>
+                x.Date.Month == _date.Month &&
+                x.Date.Year == _date.Year);
+
+            double balance = 0,
+                sumNegativePrice = 0,
+                sumPositivePrice = 0;
 
             foreach (var bill in bills)
             {
-                Balance += bill.IsPaid && bill.Date.Month <= DateTime.Today.Month && bill.Date.Year <= DateTime.Today.Year
+                balance += bill.IsPaid && bill.Date.Month <= DateTime.Today.Month && bill.Date.Year <= DateTime.Today.Year
                     ? bill.Price
                     : 0;
 
-                BillsToPay += !bill.IsPaid
+                sumNegativePrice += bill.Date.Month == _date.Month && bill.Date.Year <= _date.Year && bill.Price < 0
                     ? bill.Price
                     : 0;
 
-                TotalBillsMonth += !bill.IsPaid && bill.Date.Month == DateTime.Today.Month
-                    ? bill.Price
-                    : 0;
-
-                TotalBillsYear += !bill.IsPaid && bill.Date.Year == DateTime.Today.Year
-                    ? bill.Price
-                    : 0;
-
-                BillsPaidYear += bill.IsPaid && bill.Payment?.Year == DateTime.Today.Year && bill.Price < 0
-                    ? bill.Price
-                    : 0;
-
-                BillsCreditCardYear += !bill.IsPaid && bill.Date.Year == DateTime.Today.Year && bill.Price < 0 && bill.Type == "C"
-                    ? bill.Price
-                    : 0;
-
-                BillsPaidMonth += bill.IsPaid && bill.Date.Month == DateTime.Today.Month
+                sumPositivePrice += bill.Date.Month == _date.Month && bill.Date.Year <= _date.Year && bill.Price >= 0
                     ? bill.Price
                     : 0;
             }
 
-            balance.Foreground = Balance >= 0
-                ? new SolidColorBrush(Colors.Green)
-                : balance.Foreground = new SolidColorBrush(Colors.Red);
-
-            balance.Content = Balance.ToString();
-            bills_to_pay.Content = BillsToPay.ToString();
-            total_bills_on_month.Content = TotalBillsMonth.ToString();
-            total_bills_on_year.Content = TotalBillsYear.ToString();
-            bills_paid_in_the_year.Content = BillsPaidYear.ToString();
-            bills_on_credit_card_year.Content = BillsCreditCardYear.ToString();
+            SetPriceOfText(Balance, balance);
+            SetPriceOfText(SumNegativePrice, sumNegativePrice);
+            SetPriceOfText(SumPositivePrice, sumPositivePrice);
 
             editButton.IsEnabled = false;
             deleteButton.IsEnabled = false;
 
-            BillList.ItemsSource = bills.Where(x =>
-                x.Date.Month == _date.Month &&
-                x.Date.Year == _date.Year);
+            return;
+
+            static void SetPriceOfText(Label text, double price)
+            {
+                text.Content = price.ToString("C");
+                text.Foreground = price >= 0
+                    ? new SolidColorBrush(Colors.Green)
+                    : text.Foreground = new SolidColorBrush(Colors.Red);
+            }
         }
 
         private void Window_Closed(object sender, EventArgs e)
