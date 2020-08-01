@@ -54,7 +54,7 @@ namespace Finances.Module
                 Type = typeBox,
                 IsPaid = isPaid,
                 Payment = isPaid
-                ? DateTime.Now
+                ? DateTime.Today
                 : default
             }, null);
         }
@@ -62,6 +62,6 @@ namespace Finances.Module
 
     public interface IBillModule
     {
-        (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string value, string type, bool isPay);
+        (Bill bill, string error) ValidateBill(DateTime? date, string description, string installment, string price, string type, bool isPay);
     }
 }

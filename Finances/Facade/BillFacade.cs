@@ -40,7 +40,7 @@ namespace Finances.Facade
         public bool Save(Bill bill)
         {
             if (bill.IsPaid)
-                bill.Payment = DateTime.Now;
+                bill.Payment = DateTime.Today;
 
             if (bill.Type == "C" && string.IsNullOrEmpty(bill.Installment))
             {
@@ -77,7 +77,7 @@ namespace Finances.Facade
             }
         }
 
-        public (bool isSchedule, string error) IsSchedule(Bill bill, bool delete = false)
+        public (bool IsSchedule, string Error) IsSchedule(Bill bill, bool delete = false)
         {
             #region Is a schedule?
 
@@ -97,12 +97,12 @@ namespace Finances.Facade
                 {
                     #region you cannot remove an invoice that is part of a installment.
 
-                    return (false, "You cannot remove an invoice that is part of a installment!");
+                    return (true, "You cannot remove an invoice that is part of a installment!");
 
                     #endregion you cannot remove an invoice that is part of a installment.
                 }
                 else
-                    return (true, null);
+                    return (false, null);
 
                 #endregion you didn't edit the description, but is this a installment??
             }
@@ -123,7 +123,7 @@ namespace Finances.Facade
                 {
                     #region you cannot edit description if this is scheduled.
 
-                    return (false, "You cannot edit description if this is scheduled.");
+                    return (true, "You cannot edit description if this is scheduled.");
 
                     #endregion you cannot edit description if this is scheduled.
                 }
@@ -133,11 +133,11 @@ namespace Finances.Facade
 
                     if (delete)
                     {
-                        return (false, "You cannot remove an invoice that is part of a schedule!");
+                        return (true, "You cannot remove an invoice that is part of a schedule!");
                     }
                     else
                     {
-                        return (true, null);
+                        return (false, null);
                     }
 
                     #endregion Check delete flag
@@ -149,7 +149,7 @@ namespace Finances.Facade
             {
                 #region Is not edinting, but exist on schedule table.
 
-                return (false, "This invoice description already exists in on window of scheduling, change the description field!");
+                return (true, "This invoice description already exists in on window of scheduling, change the description field!");
 
                 #endregion Is not edinting, but exist on schedule table.
             }
@@ -182,6 +182,6 @@ namespace Finances.Facade
 
         IList<Bill> FindBills(string description);
 
-        (bool isSchedule, string error) IsSchedule(Bill bill, bool delete = false);
+        (bool IsSchedule, string Error) IsSchedule(Bill bill, bool delete = false);
     }
 }
