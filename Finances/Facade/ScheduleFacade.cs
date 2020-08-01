@@ -213,10 +213,7 @@ namespace Finances.Facade
             var schedules = _sqlService
                 .ToList<Schedule>(x =>
                     x.End == null &&
-                    x.IsActive == true)
-                .Where(x =>
-                    x.Start.Month == DateTime.Today.Month &&
-                    x.Start.Year == DateTime.Today.Year);
+                    x.IsActive == true);
 
             // verify on table bill if have the bill added.
             foreach (var schedule in schedules)
