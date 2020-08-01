@@ -1,8 +1,7 @@
 ﻿using SQLite;
 using System;
-using System.Collections.Generic;
 
-namespace Finances.Data
+namespace Finances.Model
 {
     public class Bill
     {

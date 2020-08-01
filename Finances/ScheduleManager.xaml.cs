@@ -1,5 +1,4 @@
-﻿using Finances.Data;
-using Finances.Facade;
+﻿using Finances.Facade;
 using Finances.Model;
 using Finances.Module;
 using System;
@@ -38,22 +37,22 @@ namespace Finances
             return this;
         }
 
-        public ScheduleManager Factory(ScheduleInteface schedule)
+        public ScheduleManager Factory(Schedule schedule)
         {
             InitializeComponent();
 
             _scheduleId = schedule.Id;
             Description.Text = schedule.Description;
             Price.Text = schedule.Price.ToString();
-            Installment.Text = schedule.Installments.ToString();
+            Installment.Text = schedule.Installment.ToString();
             StartDate.SelectedDate = schedule.Start;
 
-            if (schedule.Installments == 0)
+            if (schedule.Installment == 0)
                 EndDate.Content = "∞";
             else
                 EndDate.Content = schedule
                     .Start
-                    .AddMonths(schedule.Installments)
+                    .AddMonths(schedule.Installment)
                     .ToShortDateString();
             Active.IsChecked = schedule.IsActive;
             ConfirmButton.Content = "Edit schedule";
@@ -147,6 +146,6 @@ namespace Finances
     {
         ScheduleManager Factory();
 
-        ScheduleManager Factory(ScheduleInteface schedule);
+        ScheduleManager Factory(Schedule schedule);
     }
 }

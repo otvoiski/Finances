@@ -1,6 +1,5 @@
 ﻿using Finances.Facade;
 using Finances.Model;
-using System.Collections.Generic;
 using System.Windows;
 
 namespace Finances
@@ -10,15 +9,12 @@ namespace Finances
     /// </summary>
     public partial class ScheduleBill : Window, IScheduleBill
     {
-        private readonly IBillFacade _billFacade;
         private readonly IScheduleFacade _scheduleFacade;
         private readonly IScheduleManager _scheduleManager;
-        private IList<ScheduleInteface> _schedules;
 
-        public ScheduleBill(IScheduleFacade scheduleFacade, IBillFacade billFacade, IScheduleManager scheduleManager)
+        public ScheduleBill(IScheduleFacade scheduleFacade, IScheduleManager scheduleManager)
         {
             _scheduleFacade = scheduleFacade;
-            _billFacade = billFacade;
             _scheduleManager = scheduleManager;
         }
 
@@ -36,8 +32,7 @@ namespace Finances
             editButton.IsEnabled = false;
             deleteButton.IsEnabled = false;
 
-            _schedules = _scheduleFacade.GetAllSchedules();
-            ScheduleList.ItemsSource = _schedules;
+            ScheduleList.ItemsSource = _scheduleFacade.GetAllSchedules();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -55,16 +50,12 @@ namespace Finances
 
         private void Button_Click_Remove(object sender, RoutedEventArgs e)
         {
-            if (ScheduleList.SelectedIndex >= 0)
+            if (ScheduleList.SelectedItem is Schedule schedule)
             {
-                var schedule = _schedules[ScheduleList.SelectedIndex];
-
-                var bill = _billFacade.GetBill(schedule.BillId);
-
-                var result = MessageBox.Show($"Do you want remove {bill?.Description} on value ${bill?.Price}?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show($"Do you want remove {schedule?.Description} on value ${schedule?.Price}?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    _scheduleFacade.Delete(new Data.Schedule { Id = schedule.Id });
+                    _scheduleFacade.Delete(new Schedule { Id = schedule.Id });
                     LoadInterface();
                 }
             }
@@ -72,14 +63,13 @@ namespace Finances
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
-            if (ScheduleList.SelectedIndex >= 0)
+            if (ScheduleList.SelectedItem is Schedule schedule)
             {
-                var item = _schedules[ScheduleList.SelectedIndex];
-
-                if (item != null)
+                if (schedule != null)
                 {
-                    var schedule = _scheduleManager.Factory(item);
-                    schedule.ShowDialog();
+                    _scheduleManager
+                        .Factory(schedule)
+                        .ShowDialog();
                     LoadInterface();
                 }
             }

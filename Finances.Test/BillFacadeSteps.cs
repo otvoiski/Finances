@@ -1,5 +1,4 @@
-﻿using Finances.Data;
-using Finances.Facade;
+﻿using Finances.Facade;
 using Finances.Model;
 using Finances.Service;
 using FizzWare.NBuilder;

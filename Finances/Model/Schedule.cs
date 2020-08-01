@@ -1,7 +1,7 @@
 ﻿using SQLite;
 using System;
 
-namespace Finances.Data
+namespace Finances.Model
 {
     public class Schedule
     {

@@ -16,7 +16,7 @@
 			<ColumnDefinition Width="799" />
 		</Grid.ColumnDefinitions>
 		<DataGrid x:Name="BillList" KeyboardNavigation.TabNavigation="Cycle"
-				  HorizontalAlignment="Left" Height="300" Margin="20,56,0,0"
+				  HorizontalAlignment="Left" Height="300" Margin="20,50,0,0" MinWidth="1"
 				  VerticalAlignment="Top" Width="500" Grid.Column="1" Grid.Row="2"
 				  MinColumnWidth="50" MaxColumnWidth="500" AreRowDetailsFrozen="False"
 				  SelectionMode="Single" RowDetailsVisibilityMode="Visible"
@@ -26,28 +26,17 @@
 				  IsSynchronizedWithCurrentItem="False" HorizontalContentAlignment="Left"
 				  VerticalContentAlignment="Top" IsReadOnly="True" SelectionChanged="BillList_SelectionChanged">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Date" Width="80">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Date, StringFormat=\{0:dd/MM/yy\}}" ToolTip="Due Date" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-					<DataGridTemplateColumn.CellEditingTemplate>
-						<DataTemplate>
-							<DatePicker SelectedDate="{Binding Date, StringFormat=\{0:dd/MM/\}}" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellEditingTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTextColumn Header="Description" Width="200" Binding="{Binding Path=Description}" />
-				<DataGridTextColumn Header="I" Binding="{Binding Path=Installment}" />
-				<DataGridTextColumn Header="$" Binding="{Binding Path=Price}" />
-				<DataGridTextColumn Header="T" Binding="{Binding Path=Type}" />
+				<DataGridTextColumn Header="Date" Width="*" Binding="{Binding Date, StringFormat=\{0:dd/MM/yy\}}" />
+				<DataGridTextColumn Header="Description" Width="3*" Binding="{Binding Path=Description}" />
+				<DataGridTextColumn Header="I" Width="*" Binding="{Binding Path=Installment}" />
+				<DataGridTextColumn Header="Price" Width="2*" Binding="{Binding Path=Price, StringFormat=c, ConverterCulture='pt-br'}" />
+				<DataGridTextColumn Header="T" Binding="{Binding Path=Type}"  Width="*" />
 				<DataGridCheckBoxColumn Header="Is Paid?" Width="*" Binding="{Binding Path=IsPaid}" />
 			</DataGrid.Columns>
 		</DataGrid>
 
 		<Button x:Name="arrow_left" Width="32" Height="32" Padding="5,5"
-				HorizontalAlignment="Left" Margin="20,20,0,0"
+				HorizontalAlignment="Left" Margin="20,13,0,0"
 				VerticalAlignment="Top" Grid.Column="1" Click="Arrow_left_Click">
 			<StackPanel>
 				<Image Source="Picture/left-arrow.png" />
@@ -56,11 +45,11 @@
 		</Button>
 
 		<Label x:Name="date" Content="July, 2020" HorizontalAlignment="Left"
-			   Margin="52,13,0,0" VerticalAlignment="Top" Width="417"
+			   Margin="62,5,0,0" VerticalAlignment="Top" Width="417"
 			   VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFFFFFFA" Grid.Column="1" Height="43" FontSize="18" FontWeight="Bold" />
 
 		<Button x:Name="arrow_right" Width="32" Height="32" Padding="5,5"
-				HorizontalAlignment="Left" Margin="488,20,0,0"
+				HorizontalAlignment="Left" Margin="488,13,0,0"
 				VerticalAlignment="Top" Grid.Column="1" Click="Arrow_right_Click">
 			<StackPanel>
 				<Image Source="Picture/right-arrow.png" />
@@ -68,40 +57,80 @@
 			</StackPanel>
 		</Button>
 
-		<Label x:Name="balance" Content="$0,00" HorizontalAlignment="Right" Margin="0,19,22,0" VerticalAlignment="Top" Width="251" Foreground="#FFFFFFFA" FontSize="20" FontStyle="Normal" FontWeight="Normal" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Height="37" ToolTip="Total of your balance" />
-		<Label Content="Bills to pay" HorizontalAlignment="Left" Margin="521,85,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="30" Width="189" Grid.Column="1" />
-		<Label Content="Total bills on month" HorizontalAlignment="Left" Margin="521,55,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="30" Width="189" Grid.Column="1" />
-		<Label x:Name="bills_to_pay" Content="0.00" HorizontalAlignment="Left" Margin="715,85,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="30" Width="74" Grid.Column="1" />
-		<Label x:Name="total_bills_on_month" Content="0.00" HorizontalAlignment="Left" Margin="715,55,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="30" Width="74" Grid.Column="1" />
-		<Label x:Name="total_bills_on_year" Content="0.00" HorizontalAlignment="Left" Margin="715,115,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="31" Width="74" Grid.Column="1" />
-		<Label Content="Total bills on year" HorizontalAlignment="Left" Margin="521,115,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="31" Width="189" Grid.Column="1" />
-		<Label x:Name="bills_paid_in_the_year" Content="0.00" HorizontalAlignment="Left" Margin="715,145,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="31" Width="74" Grid.Column="1" />
-		<Label Content="Bills paid in the year" HorizontalAlignment="Left" Margin="523,145,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="31" Width="188" Grid.Column="1" />
-		<Label Content="Bills on credit card in the year" HorizontalAlignment="Left" Margin="521,175,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="31" Width="189" Grid.Column="1" />
-		<Label x:Name="bills_on_credit_card_year" Content="0.00" HorizontalAlignment="Left" Margin="715,175,0,0" VerticalAlignment="Top" Foreground="#FFFFFFFA" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Height="31" Width="74" Grid.Column="1" />
-		<Button Grid.Column="1" HorizontalAlignment="Left" Width="32" Height="32" Padding="5,5" Margin="218,360,0,0" VerticalAlignment="Top" Click="Button_Click_Add">
-			<StackPanel>
-				<Image Source="Picture/add.png" />
-				<TextBlock>Add Bill</TextBlock>
-			</StackPanel>
-		</Button>
-		<Button x:Name="editButton" Grid.Column="1" Width="32" Height="32" Padding="5,5" HorizontalAlignment="Left" Margin="254,360,0,0" VerticalAlignment="Top" Click="Button_Click_Edit" IsEnabled="False">
-			<StackPanel>
-				<Image Source="Picture/pencil.png" />
-				<TextBlock>Edit</TextBlock>
-			</StackPanel>
-		</Button>
-		<Button x:Name="deleteButton" Grid.Column="1" HorizontalAlignment="Left" Width="32" Height="32" Padding="5,5" Margin="290,360,0,0" VerticalAlignment="Top" Click="Button_Click_Remove" IsEnabled="False">
-			<StackPanel>
-				<Image Source="Picture/trash-can.png" />
-				<TextBlock>Remove Bill</TextBlock>
-			</StackPanel>
-		</Button>
-		<Button Grid.Column="1" HorizontalAlignment="Left" Width="32" Height="32" Padding="5,5" Margin="526,323,0,0" VerticalAlignment="Top" Click="Button_Click_Schedule">
-			<StackPanel>
-				<Image Source="Picture/calendar.png" />
-				<TextBlock>Schedule</TextBlock>
-			</StackPanel>
-		</Button>
+		<Label Content="Balance" HorizontalAlignment="Right" Margin="0,20,10,0"
+			   VerticalAlignment="Top" Width="228" Foreground="White"
+			   FontSize="20" FontWeight="Bold" VerticalContentAlignment="Center"
+			   HorizontalContentAlignment="Center" Grid.Column="1" Height="47" />
+
+		<Label x:Name="Balance" Content="0,00" HorizontalAlignment="Right"
+			   Margin="0,67,10,0" VerticalAlignment="Top" Width="228"
+			   Foreground="White" FontSize="20" VerticalContentAlignment="Center"
+			   HorizontalContentAlignment="Center" Grid.Column="1" Height="47" />
+
+		<Label Content="Positive Debits" HorizontalAlignment="Right" Margin="0,138,10,0"
+			   VerticalAlignment="Top" Width="228" Foreground="White"
+			   FontSize="20" FontWeight="Bold" VerticalContentAlignment="Center"
+			   HorizontalContentAlignment="Center" Grid.Column="1" Height="47" />
+
+		<Label x:Name="SumPositivePrice" Content="0,00" HorizontalAlignment="Right"
+			   Margin="0,185,10,0" VerticalAlignment="Top" Width="228"
+			   Foreground="White" FontSize="20" VerticalContentAlignment="Center"
+			   HorizontalContentAlignment="Center" Grid.Column="1" Height="47" />
+
+		<Label Content="Negative Debits" HorizontalAlignment="Right" Margin="0,256,10,0"
+			   VerticalAlignment="Top" Width="228" Foreground="White"
+			   FontSize="20" FontWeight="Bold" VerticalContentAlignment="Center"
+			   HorizontalContentAlignment="Center" Grid.Column="1" Height="47" />
+
+		<Label x:Name="SumNegativePrice" Content="0,00" HorizontalAlignment="Right"
+			   Margin="0,303,10,0" VerticalAlignment="Top" Width="228"
+			   Foreground="White" FontSize="20" VerticalContentAlignment="Center"
+			   HorizontalContentAlignment="Center" Grid.Column="1" Height="47" />
+
+		<!--Bottom Bar-->
+		<StackPanel Grid.Column="1" Orientation="Horizontal" Width="Auto" Height="32"
+					HorizontalAlignment="Center" Margin="0,315,257,0">
+			<Button Width="32" Height="32" Padding="5,5" Click="Button_Click_Add">
+				<StackPanel>
+					<Image Source="Picture/add.png" />
+					<TextBlock>Add Bill</TextBlock>
+				</StackPanel>
+			</Button>
+			<Button x:Name="editButton" Width="32" Height="32" Padding="5,5" Margin="5,0" Click="Button_Click_Edit" IsEnabled="False">
+				<StackPanel>
+					<Image Source="Picture/pencil.png" />
+					<TextBlock>Edit</TextBlock>
+				</StackPanel>
+			</Button>
+			<Button x:Name="deleteButton" Width="32" Height="32" Padding="5,5" Click="Button_Click_Remove" IsEnabled="False">
+				<StackPanel>
+					<Image Source="Picture/trash-can.png" />
+					<TextBlock>Remove Bill</TextBlock>
+				</StackPanel>
+			</Button>
+		</StackPanel>
+
+		<!--Lateral Bar-->
+		<StackPanel Grid.Column="1" Orientation="Vertical" Width="32"
+					VerticalAlignment="Bottom" Margin="280,0,0,77">
+			<Button Width="32" Height="32" Padding="5,5" Click="Button_Click_Import">
+				<StackPanel>
+					<Image Source="Picture/import.png" />
+					<TextBlock>Schedule</TextBlock>
+				</StackPanel>
+			</Button>
+			<Button Width="32" Height="32" Padding="5,5" Margin="0,5" Click="Button_Click_Export">
+				<StackPanel>
+					<Image Source="Picture/share.png" />
+					<TextBlock>Schedule</TextBlock>
+				</StackPanel>
+			</Button>
+			<Button Width="32" Height="32" Padding="5,5" Click="Button_Click_Schedule">
+				<StackPanel>
+					<Image Source="Picture/calendar.png" />
+					<TextBlock>Schedule</TextBlock>
+				</StackPanel>
+			</Button>
+		</StackPanel>
 	</Grid>
 </Window>

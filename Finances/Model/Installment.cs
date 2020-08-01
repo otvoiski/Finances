@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace Finances.Data
+namespace Finances.Model
 {
     public class Installment
     {

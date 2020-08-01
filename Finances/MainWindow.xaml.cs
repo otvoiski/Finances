@@ -1,12 +1,19 @@
-﻿using Finances.Facade;
+﻿using CsvHelper;
+using Finances.Facade;
 using Finances.Model;
+using Finances.Module;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Finances
 {
@@ -25,7 +32,9 @@ namespace Finances
 
         private readonly IScheduleBill _scheduleBill;
 
-        private Wallet _wallet;
+        // module
+        private readonly IBillModule _billModule;
+
         private DateTime _date;
 
         public MainWindow()
@@ -46,6 +55,9 @@ namespace Finances
             _billFacade = services.GetRequiredService<IBillFacade>();
             _scheduleFacade = services.GetRequiredService<IScheduleFacade>();
 
+            // module
+            _billModule = services.GetRequiredService<IBillModule>();
+
             _date = DateTime.Today;
             date.Content = _date.ToString("MMMM, yyyy");
 
@@ -56,59 +68,47 @@ namespace Finances
         {
             _scheduleFacade.LoadSchedule();
 
-            _wallet = new Wallet
+            var bills = _billFacade.GetAllBills();
+
+            BillList.ItemsSource = bills.Where(x =>
+                x.Date.Month == _date.Month &&
+                x.Date.Year == _date.Year);
+
+            double balance = 0,
+                sumNegativePrice = 0,
+                sumPositivePrice = 0;
+
+            foreach (var bill in bills)
             {
-                Bills = _billFacade.GetAllBills()
-            };
-
-            foreach (var bill in _wallet.Bills)
-            {
-                _wallet.Balance += bill.IsPaid
+                balance += bill.IsPaid && bill.Date.Month <= DateTime.Today.Month && bill.Date.Year <= DateTime.Today.Year
                     ? bill.Price
                     : 0;
 
-                _wallet.BillsToPay += !bill.IsPaid
+                sumNegativePrice += bill.Date.Month == _date.Month && bill.Date.Year <= _date.Year && bill.Price < 0
                     ? bill.Price
                     : 0;
 
-                _wallet.TotalBillsMonth += !bill.IsPaid && bill.Date.Month == DateTime.Today.Month
-                    ? bill.Price
-                    : 0;
-
-                _wallet.TotalBillsYear += !bill.IsPaid && bill.Date.Year == DateTime.Today.Year
-                    ? bill.Price
-                    : 0;
-
-                _wallet.BillsPaidYear += bill.IsPaid && bill.Payment?.Year == DateTime.Today.Year && bill.Price < 0
-                    ? bill.Price
-                    : 0;
-
-                _wallet.BillsCreditCardYear += !bill.IsPaid && bill.Date.Year == DateTime.Today.Year && bill.Price < 0 && bill.Type == "C"
-                    ? bill.Price
-                    : 0;
-
-                _wallet.BillsPaidMonth += bill.IsPaid && bill.Date.Month == DateTime.Today.Month
+                sumPositivePrice += bill.Date.Month == _date.Month && bill.Date.Year <= _date.Year && bill.Price >= 0
                     ? bill.Price
                     : 0;
             }
 
-            balance.Foreground = _wallet.Balance >= 0
-                ? new SolidColorBrush(Colors.Green)
-                : balance.Foreground = new SolidColorBrush(Colors.Red);
-
-            balance.Content = $"${_wallet.Balance}";
-            bills_to_pay.Content = $"${_wallet.BillsToPay}";
-            total_bills_on_month.Content = $"${_wallet.TotalBillsMonth}";
-            total_bills_on_year.Content = $"${_wallet.TotalBillsYear}";
-            bills_paid_in_the_year.Content = $"${_wallet.BillsPaidYear}";
-            bills_on_credit_card_year.Content = $"${_wallet.BillsCreditCardYear}";
+            SetPriceOfText(Balance, balance);
+            SetPriceOfText(SumNegativePrice, sumNegativePrice);
+            SetPriceOfText(SumPositivePrice, sumPositivePrice);
 
             editButton.IsEnabled = false;
             deleteButton.IsEnabled = false;
 
-            BillList.ItemsSource = _wallet
-                .Bills
-                .Where(x => x.Date.Month == _date.Month && x.Date.Year == _date.Year);
+            return;
+
+            static void SetPriceOfText(Label text, double price)
+            {
+                text.Content = price.ToString("C");
+                text.Foreground = price >= 0
+                    ? new SolidColorBrush(Colors.Green)
+                    : text.Foreground = new SolidColorBrush(Colors.Red);
+            }
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -118,32 +118,35 @@ namespace Finances
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-            var bill = _billManager.Factory();
-            bill.ShowDialog();
+            _billManager
+                .Factory()
+                .ShowDialog();
             LoadWallet();
         }
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
-            if (BillList.SelectedIndex >= 0)
+            if (BillList.SelectedItem is Bill bill)
             {
-                var bill = _billManager.Factory(_wallet.Bills[BillList.SelectedIndex]);
-                bill.ShowDialog();
+                _billManager
+                    .Factory(bill)
+                    .ShowDialog();
                 LoadWallet();
             }
         }
 
         private void Button_Click_Remove(object sender, RoutedEventArgs e)
         {
-            BillInterface bill = BillList.SelectedItem as BillInterface;
-            if (bill != null)
+            if (BillList.SelectedItem is Bill bill)
             {
                 var result = MessageBox.Show($"Do you want remove {bill.Description} on price {bill.Price}$ ?", "Remove bill", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    if (_billFacade.IsSchedule(bill.Id))
+                    (bool isSchedule, string error) = _billFacade.IsSchedule(bill, true);
+
+                    if (isSchedule)
                     {
-                        MessageBox.Show("You cannot remove an invoice that is part of a schedule; therefore, remove the schedule first!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show(error, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                     else
                     {
@@ -157,14 +160,17 @@ namespace Finances
 
         private void Button_Click_Schedule(object sender, RoutedEventArgs e)
         {
-            var bill = _scheduleBill.Factory();
-            bill.ShowDialog();
+            _scheduleBill
+                .Factory()
+                .ShowDialog();
             LoadWallet();
         }
 
         private void BillList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (BillList.SelectedIndex >= 0)
+            var selection = e.Source as DataGrid;
+
+            if (selection.SelectedItem is Bill)
             {
                 editButton.IsEnabled = true;
                 deleteButton.IsEnabled = true;
@@ -188,6 +194,79 @@ namespace Finances
             _date = new DateTime(_date.Ticks).AddMonths(-1);
             date.Content = _date.ToString("MMMM, yyyy");
             LoadWallet();
+        }
+
+        private void Button_Click_Import(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog
+            {
+                DefaultExt = ".csv",
+                Filter = "CSV files (*.csv)|*.csv"
+            };
+
+            bool? result = open.ShowDialog();
+            if (result == true)
+            {
+                using var reader = new StreamReader(open.FileName);
+                using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+                var records = csv.GetRecords<Bill>().ToList();
+
+                var load = MessageBox.Show($"Do you want to load { records.Count } invoice(s)?", "Exported", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+                if (load == MessageBoxResult.Yes)
+                {
+                    foreach (var item in records)
+                    {
+                        (Bill bill, string error) = _billModule.ValidateBill(
+                            item.Date,
+                            item.Description,
+                            item.Installment,
+                            item.Price.ToString(),
+                            item.Type == "D"
+                                ? "Debit Card"
+                                : "Credit Card",
+                            item.IsPaid);
+
+                        if (bill != null)
+                        {
+                            if (!_billFacade.IsSchedule(bill).IsSchedule)
+                            {
+                                _billFacade.Save(bill);
+                            }
+                        }
+                    }
+                }
+
+                MessageBox.Show($"Datas imported of the file {open.FileName}", "Exported", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                LoadWallet();
+            }
+        }
+
+        private void Button_Click_Export(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var save = new SaveFileDialog()
+                {
+                    DefaultExt = ".csv",
+                    Filter = "CSV files (*.csv)|*.csv"
+                };
+
+                bool? result = save.ShowDialog();
+                if (result == true)
+                {
+                    using StreamWriter writer = new StreamWriter(save.FileName);
+                    using CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+                    csv.WriteRecords(_billFacade.GetAllBills());
+
+                    MessageBox.Show($"Datas exported in {save.FileName}", "Exported", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw;
+            }
         }
     }
 }

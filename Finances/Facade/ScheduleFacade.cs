@@ -1,7 +1,5 @@
-﻿using Finances.Data;
-using Finances.Model;
+﻿using Finances.Model;
 using Finances.Service;
-using Microsoft.VisualBasic;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -67,26 +65,10 @@ namespace Finances.Facade
             return valid;
         }
 
-        public IList<ScheduleInteface> GetAllSchedules()
+        public IList<Schedule> GetAllSchedules()
         {
-            var schedules = new List<ScheduleInteface>();
-            foreach (var schedule in _sqlService.ToList<Schedule>())
-            {
-                schedules.Add(new ScheduleInteface
-                {
-                    Id = schedule.Id,
-                    Description = schedule.Description,
-                    IsActive = schedule.IsActive,
-                    End = schedule.End == default(DateTime)
-                    ? null
-                    : schedule.End,
-                    Installments = schedule.Installment,
-                    Start = schedule.Start,
-                    Price = schedule.Price,
-                });
-            }
-
-            return schedules;
+            return _sqlService
+                .ToList<Schedule>();
         }
 
         public bool Save(Schedule schedule)
@@ -212,15 +194,10 @@ namespace Finances.Facade
             var valid = true;
 
             // Load invoices where the end date of the schedule is equal to null
-            var x = _sqlService
+            var schedules = _sqlService
                 .ToList<Schedule>(x =>
                     x.End == null &&
                     x.IsActive == true);
-
-            var schedules = x
-                .Where(x =>
-                    x.Start.Month == DateTime.Today.Month &&
-                    x.Start.Year == DateTime.Today.Year);
 
             // verify on table bill if have the bill added.
             foreach (var schedule in schedules)
@@ -228,8 +205,10 @@ namespace Finances.Facade
                 var bill = _sqlService
                     .ToList<Bill>(x =>
                         x.Description == schedule.Description &&
-                        x.Price == schedule.Price &&
                         x.Type == "D")?
+                    .Where(x =>
+                       x.Date.Month == DateTime.Today.Month &&
+                       x.Date.Year == DateTime.Today.Year)
                     .FirstOrDefault();
 
                 if (bill == null)
@@ -257,7 +236,7 @@ namespace Finances.Facade
 
     public interface IScheduleFacade
     {
-        IList<ScheduleInteface> GetAllSchedules();
+        IList<Schedule> GetAllSchedules();
 
         bool Save(Schedule schedule);
 
