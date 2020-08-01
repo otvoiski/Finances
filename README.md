@@ -1,6 +1,9 @@
 # Finances
 A simple finance administrator in .Net Core 3.1 and WPF
 
+## Screenshot
+<img src="Finances.jpg" alt="Finances" height="500" >
+
 ## Installation
 1. Download for windows x64 or x86
 2. Unzip the project
