@@ -67,24 +67,8 @@ namespace Finances.Facade
 
         public IList<Schedule> GetAllSchedules()
         {
-            var schedules = new List<Schedule>();
-            foreach (var schedule in _sqlService.ToList<Schedule>())
-            {
-                schedules.Add(new Schedule
-                {
-                    Id = schedule.Id,
-                    Description = schedule.Description,
-                    IsActive = schedule.IsActive,
-                    End = schedule.End == default(DateTime)
-                    ? null
-                    : schedule.End,
-                    Installment = schedule.Installment,
-                    Start = schedule.Start,
-                    Price = schedule.Price,
-                });
-            }
-
-            return schedules;
+            return _sqlService
+                .ToList<Schedule>();
         }
 
         public bool Save(Schedule schedule)

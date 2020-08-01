@@ -17,24 +17,8 @@ namespace Finances.Facade
 
         public IList<Bill> GetAllBills()
         {
-            var i = new List<Bill>();
-            var bills = _sqlService
-                        .ToList<Bill>();
-            foreach (var b in bills)
-            {
-                i.Add(new Bill
-                {
-                    Date = b.Date,
-                    Id = b.Id,
-                    Description = b.Description,
-                    Installment = b.Installment,
-                    IsPaid = b.IsPaid,
-                    Payment = b.Payment,
-                    Price = b.Price,
-                    Type = b.Type
-                });
-            }
-            return i;
+            return _sqlService
+                .ToList<Bill>();
         }
 
         public bool Save(Bill bill)
