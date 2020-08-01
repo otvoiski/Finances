@@ -1,10 +1,16 @@
-﻿using Finances.Facade;
+﻿using CsvHelper;
+using Finances.Facade;
 using Finances.Model;
+using Finances.Module;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Linq;
-using System.Threading;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -26,6 +32,9 @@ namespace Finances
 
         private readonly IScheduleBill _scheduleBill;
 
+        // module
+        private readonly IBillModule _billModule;
+
         private DateTime _date;
 
         public MainWindow()
@@ -45,6 +54,9 @@ namespace Finances
             // facades
             _billFacade = services.GetRequiredService<IBillFacade>();
             _scheduleFacade = services.GetRequiredService<IScheduleFacade>();
+
+            // module
+            _billModule = services.GetRequiredService<IBillModule>();
 
             _date = DateTime.Today;
             date.Content = _date.ToString("MMMM, yyyy");
@@ -132,7 +144,7 @@ namespace Finances
                 {
                     (bool isSchedule, string error) = _billFacade.IsSchedule(bill, true);
 
-                    if (!isSchedule)
+                    if (isSchedule)
                     {
                         MessageBox.Show(error, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
@@ -182,6 +194,79 @@ namespace Finances
             _date = new DateTime(_date.Ticks).AddMonths(-1);
             date.Content = _date.ToString("MMMM, yyyy");
             LoadWallet();
+        }
+
+        private void Button_Click_Import(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog
+            {
+                DefaultExt = ".csv",
+                Filter = "CSV files (*.csv)|*.csv"
+            };
+
+            bool? result = open.ShowDialog();
+            if (result == true)
+            {
+                using var reader = new StreamReader(open.FileName);
+                using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+                var records = csv.GetRecords<Bill>().ToList();
+
+                var load = MessageBox.Show($"Do you want to load { records.Count } invoice(s)?", "Exported", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+                if (load == MessageBoxResult.Yes)
+                {
+                    foreach (var item in records)
+                    {
+                        (Bill bill, string error) = _billModule.ValidateBill(
+                            item.Date,
+                            item.Description,
+                            item.Installment,
+                            item.Price.ToString(),
+                            item.Type == "D"
+                                ? "Debit Card"
+                                : "Credit Card",
+                            item.IsPaid);
+
+                        if (bill != null)
+                        {
+                            if (!_billFacade.IsSchedule(bill).IsSchedule)
+                            {
+                                _billFacade.Save(bill);
+                            }
+                        }
+                    }
+                }
+
+                MessageBox.Show($"Datas imported of the file {open.FileName}", "Exported", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                LoadWallet();
+            }
+        }
+
+        private void Button_Click_Export(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var save = new SaveFileDialog()
+                {
+                    DefaultExt = ".csv",
+                    Filter = "CSV files (*.csv)|*.csv"
+                };
+
+                bool? result = save.ShowDialog();
+                if (result == true)
+                {
+                    using StreamWriter writer = new StreamWriter(save.FileName);
+                    using CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+                    csv.WriteRecords(_billFacade.GetAllBills());
+
+                    MessageBox.Show($"Datas exported in {save.FileName}", "Exported", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw;
+            }
         }
     }
 }

@@ -15,11 +15,14 @@
     <PackageReleaseNotes></PackageReleaseNotes>
     <PublishTrimmed>true</PublishTrimmed>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>finances.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Picture\add.png" />
     <None Remove="Picture\calendar.png" />
+    <None Remove="Picture\import.png" />
     <None Remove="Picture\left-arrow.png" />
     <None Remove="Picture\pencil.png" />
     <None Remove="Picture\right-arrow.png" />
@@ -29,6 +32,9 @@
     <Content Include="Picture\finances.ico">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Picture\import.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Picture\share.png">

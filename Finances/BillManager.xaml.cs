@@ -30,7 +30,7 @@ namespace Finances
             installmentLabel.Visibility = Visibility.Hidden;
             installment.Visibility = Visibility.Hidden;
 
-            date.SelectedDate = DateTime.Now;
+            date.SelectedDate = DateTime.Today;
             description.Text = "";
             installment.Text = string.Empty;
             value.Text = "-1";
@@ -85,11 +85,11 @@ namespace Finances
             {
                 bill.Id = _billId;
 
-                (bool isSchedule, string isScheduleError) = _billFacade.IsSchedule(bill);
+                (bool isSchedule, string scheduleError) = _billFacade.IsSchedule(bill);
 
-                if (!isSchedule)
+                if (isSchedule)
                 {
-                    MessageBox.Show(isScheduleError, "Fail", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(scheduleError, "Fail", MessageBoxButton.OK, MessageBoxImage.Information);
                     Close();
                 }
                 else
