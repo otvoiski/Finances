@@ -222,6 +222,9 @@ namespace Finances.Facade
                     .ToList<Bill>(x =>
                         x.Description == schedule.Description &&
                         x.Type == "D")?
+                    .Where(x =>
+                       x.Date.Month == DateTime.Today.Month &&
+                       x.Date.Year == DateTime.Today.Year)
                     .FirstOrDefault();
 
                 if (bill == null)
