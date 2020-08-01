@@ -123,7 +123,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("check is schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 9
- testRunner.Then("isSchedule should be true", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("isSchedule should be false", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 10
  testRunner.And("error should be null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -175,7 +175,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("check is schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 18
- testRunner.Then("isSchedule should be false", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("isSchedule should be true", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 19
  testRunner.And("error message is \"You cannot remove an invoice that is part of a installment!\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -230,7 +230,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("check is schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 27
- testRunner.Then("isSchedule should be false", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("isSchedule should be true", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 28
  testRunner.And("error message is \"You cannot edit description if this is scheduled.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -288,7 +288,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("check is schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 37
- testRunner.Then("isSchedule should be true", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("isSchedule should be false", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 38
  testRunner.And("error should be null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -346,7 +346,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("check is schedule with delete flag", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 47
- testRunner.Then("isSchedule should be false", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("isSchedule should be true", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 48
  testRunner.And("error message is \"You cannot remove an invoice that is part of a schedule!\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -404,7 +404,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("check is schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 57
- testRunner.Then("isSchedule should be false", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("isSchedule should be true", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 58
  testRunner.And("error message is \"This invoice description already exists in on window of schedul" +
